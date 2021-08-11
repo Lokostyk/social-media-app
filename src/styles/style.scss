@@ -1,0 +1,29 @@
+@import "./colorsVariables";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+main {
+  display: grid;
+  grid-template-columns: 20% 80%;
+}
+.menu {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  background-color: $deepblue;
+  height: 100vh;
+  li {
+    padding-inline-start: 0;
+    margin: 1rem;
+    list-style-type: none;
+    button {
+      color: white;
+      font-size: 1.5rem;
+      background-color: inherit;
+      border: none;
+    }
+  }
+}
