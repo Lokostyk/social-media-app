@@ -2,13 +2,17 @@ import React, { useState } from 'react'
 import firebase from 'firebase'
 import app,{ auth } from "./firebase"
 
-export default function LoginForm() {
+export default function LoginForm(props) {
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
 
     function login(){
         firebase.auth().signInWithEmailAndPassword(email, password)
-        .then()
+        .then(()=>{
+            if(firebase.auth().currentUser){
+                props.login("Profile")
+            }
+        })
         .catch((error)=>{
             console.log(error)
         })
@@ -16,9 +20,9 @@ export default function LoginForm() {
     return (
         <form className="form" onSubmit={(e)=> e.preventDefault()}>
             <label>E-mail</label>
-            <input type="text" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+            <input type="text" value={email} onChange={(e)=>setEmail(e.target.value)} required/>
             <label>Password</label>
-            <input type="text" value={password} onChange={(e)=>setPassword(e.target.value)}/>
+            <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} required/>
             <input type="submit" value="Log In" onClick={login}/>
         </form>
     )

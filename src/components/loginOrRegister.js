@@ -1,19 +1,19 @@
 import React, {useState} from "react"
 import LoginForm from "./loginForm"
-import RegisterForm from "./registerForm"
+import Profile from "./profile"
 
-export default function LoginOrRegister(){
+export default function LoginOrRegister(props){
     const [display,setDisplay] = useState("")
 
     if(display === "Login"){
-        return <LoginForm />
-    }else if(display === "Register"){
-        return <RegisterForm />
-    }else {
+        return <LoginForm login={setDisplay}/>
+    }else if(display === "Profile"){
+        return <Profile signOut={setDisplay} />
+    }else{
         return (
             <div className="btns">
                 <button onClick={()=> setDisplay("Login")}>Login</button>
-                <button onClick={()=> setDisplay("Register")}>Register</button>
+                <button onClick={()=> props.register("Register")}>Register</button>
             </div>
         )
     }

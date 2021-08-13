@@ -17,14 +17,19 @@ export default function RegisterForm() {
         }
     }
     return (
-        <form className="form" onSubmit={(e)=> e.preventDefault()}>
-            <label>E-mail</label>
-            <input type="text" value={email} onChange={(e)=>setEmail(e.target.value)}/>
-            <label>Password</label>
-            <input type="text" value={password} onChange={(e)=>setPassword(e.target.value)}/>
-            <label>Repeat Password</label>
-            <input type="text" value={password2} onChange={(e)=>setPassword2(e.target.value)}/>
-            <input type="submit" value="Register" onClick={register}/>
-        </form>
+        <div className="wrapper">
+            <form className="wrapper--form" onSubmit={(e)=> e.preventDefault()}>
+                <label>E-mail
+                <input type="text" value={email} onChange={(e)=>setEmail(e.target.value)} required/><br />
+                </label>
+                <label>Password
+                <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} required/><br />
+                </label>
+                <label>Repeat Password
+                <input type="password" value={password2} onChange={(e)=>setPassword2(e.target.value)} required/><br />
+                </label>
+                <input type="submit" value="Register" onClick={register}/>
+            </form>
+        </div>
     )
 }
