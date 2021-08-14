@@ -1,7 +1,10 @@
 import React,{useState} from 'react'
 import firebase from 'firebase/app'
+import 'firebase/database'
 
-export default function RegisterForm() {
+export default function RegisterInput() {
+    const [name,setName] = useState("")
+    const [surname,setSurname] = useState("")
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
     const [password2,setPassword2] = useState("")
@@ -9,6 +12,21 @@ export default function RegisterForm() {
     function register(){
         if(password === password2){
             firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(()=>{
+                const userId = firebase.auth().currentUser.uid
+                firebase.database().ref('users/' + userId).set({
+                    userName: name,
+                    userSurname: surname,
+                    userEmail: email
+                })
+            })
+            .then(()=>{
+                setName("")
+                setSurname("")
+                setEmail("YOOOOO")
+                setPassword("")
+                setPassword2("")
+            })
             .catch((error)=>{
                 console.log(error)
             })
@@ -19,16 +37,29 @@ export default function RegisterForm() {
     return (
         <div className="wrapper">
             <form className="wrapper--form" onSubmit={(e)=> e.preventDefault()}>
-                <label>E-mail
-                <input type="text" value={email} onChange={(e)=>setEmail(e.target.value)} required/><br />
-                </label>
-                <label>Password
-                <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} required/><br />
-                </label>
-                <label>Repeat Password
-                <input type="password" value={password2} onChange={(e)=>setPassword2(e.target.value)} required/><br />
-                </label>
-                <input type="submit" value="Register" onClick={register}/>
+                <div>
+                    <fieldset style={{marginRight: .5+"rem"}}>
+                        <legend>Name</legend>
+                    <input className="rInput" type="text" value={name} onChange={(e)=>setName(e.target.value)} required/><br />
+                    </fieldset>
+                    <fieldset style={{marginLeft: .5+"rem"}}>
+                        <legend>Surname</legend>
+                    <input className="rInput" type="text" value={surname} onChange={(e)=>setSurname(e.target.value)} required/><br />
+                    </fieldset>
+                </div>
+                <fieldset>
+                    <legend>E-mail</legend>
+                    <input className="rInput" type="text" value={email} onChange={(e)=>setEmail(e.target.value)} required/><br />
+                </fieldset>
+                <fieldset>
+                    <legend>Password</legend>
+                        <input className="rInput" type="password" value={password} onChange={(e)=>setPassword(e.target.value)} required/><br />
+                </fieldset>
+                <fieldset>
+                    <legend>Repeat password</legend>
+                    <input className="rInput" type="password" value={password2} onChange={(e)=>setPassword2(e.target.value)} required/><br />
+                </fieldset>
+                <input className="rBtn" type="submit" value="Register" onClick={register}/>
             </form>
         </div>
     )
