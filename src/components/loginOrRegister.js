@@ -4,8 +4,8 @@ import Profile from "./profile"
 
 export default function LoginOrRegister(props){
     const [display,setDisplay] = useState("")
-
-    if(display === "Login"){
+    
+    if(display === "Login" || props.display === "Login"){
         return <LoginForm login={setDisplay}/>
     }else if(display === "Profile"){
         return <Profile signOut={setDisplay} />

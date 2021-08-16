@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import firebase from 'firebase/app'
 import 'firebase/database'
 
-export default function RegisterInput() {
+export default function RegisterInput(props) {
     const [name,setName] = useState("")
     const [surname,setSurname] = useState("")
     const [email,setEmail] = useState("")
@@ -14,16 +14,19 @@ export default function RegisterInput() {
             firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(()=>{
                 const userId = firebase.auth().currentUser.uid
-                firebase.database().ref('users/' + userId).set({
+                firebase.database().ref("users/" + userId).set({
                     userName: name,
                     userSurname: surname,
                     userEmail: email
+                }).then(()=>{
+                    props.register("Login")
                 })
+
             })
             .then(()=>{
                 setName("")
                 setSurname("")
-                setEmail("YOOOOO")
+                setEmail("")
                 setPassword("")
                 setPassword2("")
             })
@@ -37,6 +40,7 @@ export default function RegisterInput() {
     return (
         <div className="wrapper">
             <form className="wrapper--form" onSubmit={(e)=> e.preventDefault()}>
+                <h1>Create your account:</h1>
                 <div>
                     <fieldset style={{marginRight: .5+"rem"}}>
                         <legend>Name</legend>

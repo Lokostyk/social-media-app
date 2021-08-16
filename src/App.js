@@ -5,9 +5,10 @@ import RegisterForm from "./components/registerForm"
 
 function App() {
   const [display,setDisplay] = useState("")
+
   function renderMiddleContent(){
     if(display === "Register"){
-      return <RegisterForm />
+      return <RegisterForm register={setDisplay} />
     }else{
       return <div>middleMessages</div>
     }
@@ -15,7 +16,7 @@ function App() {
   return (
     <main>
       <div className="menu">
-        <LoginOrRegister register={setDisplay} />
+        <LoginOrRegister display={display} register={setDisplay} />
         <Menu />
       </div>
       {renderMiddleContent()}
