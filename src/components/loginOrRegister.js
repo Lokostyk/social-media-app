@@ -4,16 +4,15 @@ import Profile from "./profile"
 
 export default function LoginOrRegister(props){
     const [display,setDisplay] = useState("")
-    
     if(display === "Login" || props.display === "Login"){
-        return <LoginForm login={setDisplay}/>
+        return <LoginForm loggedIn={props.loggedIn} login={setDisplay}/>
     }else if(display === "Profile"){
-        return <Profile signOut={setDisplay} />
+        return <Profile userData={props.userData} signOut={setDisplay} />
     }else{
         return (
             <div className="btns">
-                <button onClick={()=> setDisplay("Login")}>Login</button>
-                <button onClick={()=> props.register("Register")}>Register</button>
+                <button className="loginBtns" onClick={()=> setDisplay("Login")}>Login</button>
+                <button className="loginBtns" onClick={()=> props.register("Register")}>Register</button>
             </div>
         )
     }

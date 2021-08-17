@@ -1,12 +1,15 @@
-import React from 'react'
+import React,{useState, useContext} from 'react'
 import firebase from 'firebase/app'
 
 export default function Profile(props) {
-    const user = firebase.auth().currentUser
+    function userPicture(){
+        if(props.userData.userProfilePicture === undefined){
+            return <img className="userImg" src="no_profile_picture.png"/>
+        }
+    }
     function signOut(){
         firebase.auth().signOut()
         .then(()=>{
-            console.log("user logout")
             props.signOut("")
         })
         .catch((error)=>{
@@ -14,9 +17,11 @@ export default function Profile(props) {
         })
     }
     return (
-        <div>
-            {user.uid}
-            <button onClick={signOut}>Sign out</button>        
+        <div className="userWrapper">
+            {userPicture()}
+            {value=>console.log(value)}
+            <div className="userInfo" >{props.userData.userName} {props.userData.userSurname}</div>
+            <button className="loginBtns" onClick={signOut}>Sign out</button>        
         </div>
     )
 }

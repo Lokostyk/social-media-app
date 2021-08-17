@@ -10,6 +10,7 @@ export default function LoginForm(props) {
         firebase.auth().signInWithEmailAndPassword(email, password)
         .then(()=>{
             if(firebase.auth().currentUser){
+                props.loggedIn(true)
                 props.login("Profile")
             }
         })
