@@ -47,6 +47,16 @@ main {
   border: 2px solid $grey;
   border-radius: 2px;
 }
+.rBtn {
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+  height: 2.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: $deepblue;
+  color: white;
+}
 .wrapper {
   display: flex;
   justify-content: center;
@@ -74,16 +84,6 @@ main {
     padding-inline-start: 2px;
     color: $deepblue;
     font-size: 1.1rem;
-  }
-  .rBtn {
-    margin-left: auto;
-    margin-right: auto;
-    width: 30%;
-    height: 2.2rem;
-    border: none;
-    border-radius: 8px;
-    background-color: $deepblue;
-    color: white;
   }
   fieldset {
     border: 1px solid $deepblue;
@@ -140,10 +140,17 @@ main {
 }
 .profileSet {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+.formSet {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-top: 2px solid $deepblue;
+  border-bottom: 2px solid $deepblue;
   .profilePic {
     padding: 0.5rem;
     width: 180px;
@@ -151,17 +158,39 @@ main {
     border-radius: 50%;
     background-color: $deepblue;
   }
-  .formSet {
-    display: flex;
-    flex-direction: column;
+  .userDescripton {
+    margin: 0.3rem 0;
+    width: 100%;
+    height: 50%;
+    resize: none;
   }
   .surName {
     margin-top: 0.6rem;
-    input {
-      font-size: 1.1rem;
+    input[type="text"] {
+      color: $deepblue;
+      font-size: 1.3rem;
     }
   }
-  input[type="text"]:disabled {
+  input[type="text"],
+  textarea {
+    color: $deepblue;
+    font-size: 1.1rem;
+  }
+  .profileBtns {
+    display: flex;
+    width: 100%;
+    margin: 0.8rem 0 0.5rem 0;
+    input,
+    button {
+      width: 25%;
+    }
+    .rBtn:disabled {
+      opacity: 0.5;
+      background-color: $deepblue;
+      border: 2px solid grey;
+    }
+  }
+  :disabled {
     text-align: center;
     background-color: inherit;
     border: none;
