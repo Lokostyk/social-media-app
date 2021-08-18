@@ -10,6 +10,7 @@ export default function Profile(props) {
     function signOut(){
         firebase.auth().signOut()
         .then(()=>{
+            props.loggedIn(false)
             props.signOut("")
         })
         .catch((error)=>{

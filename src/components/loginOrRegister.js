@@ -7,7 +7,7 @@ export default function LoginOrRegister(props){
     if(display === "Login" || props.display === "Login"){
         return <LoginForm loggedIn={props.loggedIn} login={setDisplay}/>
     }else if(display === "Profile"){
-        return <Profile userData={props.userData} signOut={setDisplay} />
+        return <Profile userData={props.userData} loggedIn={props.loggedIn} signOut={setDisplay} />
     }else{
         return (
             <div className="btns">

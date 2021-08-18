@@ -37,6 +37,8 @@ function App() {
   function renderMiddleContent(){
     if(display === "Register"){
       return <RegisterForm register={setDisplay} />
+    }else if(display === "ProfileSettings" && loggedIn === true){
+      return <ProfileSettings userData={userData}/>
     }else{
       return <div>middleMessages</div>
     }

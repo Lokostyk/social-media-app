@@ -138,3 +138,32 @@ main {
     font-size: 1.2rem;
   }
 }
+.profileSet {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  .profilePic {
+    padding: 0.5rem;
+    width: 180px;
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: $deepblue;
+  }
+  .formSet {
+    display: flex;
+    flex-direction: column;
+  }
+  .surName {
+    margin-top: 0.6rem;
+    input {
+      font-size: 1.1rem;
+    }
+  }
+  input[type="text"]:disabled {
+    text-align: center;
+    background-color: inherit;
+    border: none;
+  }
+}
