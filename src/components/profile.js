@@ -4,7 +4,7 @@ import firebase from 'firebase/app'
 export default function Profile(props) {
     function userPicture(){
         if(props.userData.userProfilePicture === undefined){
-            return <img className="userImg" src="no_profile_picture.png"/>
+            return <img className="userImg" src="pictures/no_profile_picture.png"/>
         }
     }
     function signOut(){
