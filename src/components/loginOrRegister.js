@@ -6,7 +6,7 @@ export default function LoginOrRegister(props){
     const [display,setDisplay] = useState("")
     if(display === "Login" || props.display === "Login"){
         return <LoginForm loggedIn={props.loggedIn} login={setDisplay}/>
-    }else if(display === "Profile"){
+    }else if(display === "Profile" && props.loggedIn){
         return <Profile userData={props.userData} loggedIn={props.loggedIn} signOut={setDisplay} />
     }else{
         return (
