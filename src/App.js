@@ -1,11 +1,13 @@
 import React,{ useState } from "react";
 import firebase from "firebase"
+
 import Alert from "./components/alert"
 import { AlertContext } from "./Contexts/alert";
 import Menu from "./components/leftMenu"
 import LoginOrRegister from "./components/loginOrRegister";
 import RegisterForm from "./components/registerForm"
 import ProfileSettings from "./components/profileSettings";
+import TopBar from "./components/topBar";
 
 
 function App() {
@@ -46,7 +48,9 @@ function App() {
     }else if(display === "ProfileSettings" && loggedIn === true){
       return <ProfileSettings userData={userData} loggedIn={setLoggedIn}/>
     }else{
-      return <div>middleMessages</div>
+      return (
+        <TopBar />
+        )
     }
   }
   return (

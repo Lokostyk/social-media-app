@@ -37,6 +37,7 @@
 main {
   display: grid;
   grid-template-columns: 20% 80%;
+  background-color: #f5f5f5;
 }
 .menu {
   display: grid;
@@ -254,4 +255,52 @@ main {
   border-radius: 8px;
   background-color: rgba(255, 67, 67, 0.5);
   font-size: 1rem;
+}
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  height: 2.5rem;
+  width: 90%;
+  border: 1px solid $deepblue;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: $deepblue;
+  text-align: center;
+  form {
+    position: relative;
+    width: 30%;
+  }
+  input {
+    padding: 0.1rem;
+    padding-inline-start: 5px;
+    width: 100%;
+    font-size: 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: grey;
+    &:focus {
+      color: $deepblue;
+    }
+  }
+  .searchedUsers {
+    position: absolute;
+    list-style: none;
+    width: 100%;
+    z-index: 10;
+    li {
+      margin: 0.2rem 0;
+      padding: 0.4rem;
+      width: 100.5%;
+      font-size: 1.1rem;
+      text-align: left;
+      border: 1px solid $deepblue;
+      border-top-left-radius: 12px;
+      border-bottom-left-radius: 12px;
+      background-color: #fff;
+    }
+  }
 }

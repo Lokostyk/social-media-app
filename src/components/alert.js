@@ -6,7 +6,7 @@ export default function Alert(props) {
     }
     function btnType(item){
         if(item === "delete"){
-            return <button onClick={removeAlert}><img src="pictures/delete.svg"/></button>
+            return <button onClick={removeAlert}><img src="pictures/delete.svg" alt="delete icon"/></button>
         }else {
             return ""
         }

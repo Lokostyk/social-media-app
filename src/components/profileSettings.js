@@ -68,11 +68,11 @@ export default function ProfileSettings(props) {
                 <input type="checkbox" checked={changePassword} onChange={()=>setChangePassword(!changePassword)}/>
                     <label className={!changePassword ? "labelDisabled" : "labelEnabled"}>
                         <p>Old Password</p>
-                        <input value={userPassword} onChange={(e)=>setUserPassword(e.target.value)} disabled={!changePassword}/>
+                        <input type="password" value={userPassword} onChange={(e)=>setUserPassword(e.target.value)} disabled={!changePassword}/>
                     </label>
                     <label className={!changePassword ? "labelDisabled" : "labelEnabled"}>
                     <p>New Password</p>
-                    <input value={newUserPassword} onChange={(e)=>setNewUserPassword(e.target.value)} disabled={!changePassword}/>
+                    <input type="password" value={newUserPassword} onChange={(e)=>setNewUserPassword(e.target.value)} disabled={!changePassword}/>
                 </label>
                 <div className="profileBtns">
                     <input className="rBtn" type="submit" value="Save" onClick={submit} disabled={!(!inputState || changePassword)}/>
