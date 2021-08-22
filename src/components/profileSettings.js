@@ -1,8 +1,10 @@
-import React,{useState} from 'react'
+import React,{useState , useContext} from 'react'
 import firebase from 'firebase/app'
+import { AlertContext } from '../Contexts/alert';
 
 export default function ProfileSettings(props) {
     const user = firebase.auth().currentUser;
+    const setAlert = useContext(AlertContext)
     //User info
     const [inputState,setInputState] = useState(true)
     const [userName,setUserName] = useState(props.userData.userName)
@@ -24,7 +26,7 @@ export default function ProfileSettings(props) {
             })
             //Changing email
             if(user.email !== userEmail){
-                user.updateEmail(userEmail).catch(()=>alert("Something went wrong!! Please, refresh page"))
+                user.updateEmail(userEmail).catch(()=> setAlert({"style": "topAlert","txt":"Something went wrong!! Please, refresh page.","functions":"delete"}))
             }
             //Changing password
             if(changePassword){
@@ -38,17 +40,17 @@ export default function ProfileSettings(props) {
                     setNewUserPassword("")
                     setChangePassword(false)
                 })
-                .catch(()=>alert("Wrong password!"))
+                .catch(()=>setAlert({"style": "topAlert","txt":"Wrong password!","functions":"delete"}))
             }
             props.loggedIn("refresh")
             setInputState(true)
         }else {
-            alert("Name and Surname can contain up to 15 LETTERS")
+            setAlert({"style": "topAlert","txt":"Name and Surname can contain up to 15 letters!","functions":"delete"})
         }
     }
     function deleteAccount(){
         user.delete().then(()=>{
-            alert("Account no longer exist.")
+            setAlert({"style": "topAlert","txt":"Account no longer exist.","functions":"delete"})
             props.loggedIn(false)
         })
     }

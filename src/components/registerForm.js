@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import firebase from 'firebase/app'
 import 'firebase/database'
+import { AlertContext } from '../Contexts/alert'
 
 export default function RegisterInput(props) {
     const [name,setName] = useState("")
@@ -8,33 +9,40 @@ export default function RegisterInput(props) {
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
     const [password2,setPassword2] = useState("")
-    
+    const setAlert = React.useContext(AlertContext)
+
     function register(){
         if(password === password2){
+            //Checking if name and surname contains only up to 15 letters
+            if(/^[A-z]+$/i.test(name) && /^[A-z]+$/i.test(surname) 
+            && surname.length <= 15 && name.length <= 15){
             firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(()=>{
-                const userId = firebase.auth().currentUser.uid
-                firebase.database().ref("users/" + userId).set({
-                    userName: name,
-                    userSurname: surname,
-                    userEmail: email
-                }).then(()=>{
-                    props.register("Login")
-                })
+                .then(()=>{
+                    const userId = firebase.auth().currentUser.uid
+                    firebase.database().ref("users/" + userId).set({
+                        userName: name,
+                        userSurname: surname,
+                        userEmail: email
+                    }).then(()=>{
+                        props.register("Login")
+                    })
 
-            })
-            .then(()=>{
-                setName("")
-                setSurname("")
-                setEmail("")
-                setPassword("")
-                setPassword2("")
-            })
-            .catch((error)=>{
-                console.log(error)
-            })
+                })
+                .then(()=>{
+                    setName("")
+                    setSurname("")
+                    setEmail("")
+                    setPassword("")
+                    setPassword2("")
+                })
+                .catch((error)=>{
+                    console.log(error)
+                })
+            }else {
+                setAlert({"style": "topAlert","txt":"Name and Surname can contain up to 15 letters!","functions":"delete"})
+            }
         }else{
-            alert("Passwords must be the same!")
+            setAlert({"style": "topAlert","txt":"Passwords must be the same!","functions":"delete"})
         }
     }
     return (

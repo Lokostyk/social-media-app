@@ -1,12 +1,17 @@
 import React,{ useState } from "react";
 import firebase from "firebase"
+import Alert from "./components/alert"
+import { AlertContext } from "./Contexts/alert";
 import Menu from "./components/leftMenu"
 import LoginOrRegister from "./components/loginOrRegister";
 import RegisterForm from "./components/registerForm"
 import ProfileSettings from "./components/profileSettings";
 
+
 function App() {
   const [display,setDisplay] = useState("")
+  const [alert,setAlert] = useState({"style":"noDisplay","txt":"","functions":""})
+
   //Checking if user is logged in
   const [loggedIn,setLoggedIn] = useState(false)
   //Reloading user data
@@ -45,7 +50,9 @@ function App() {
     }
   }
   return (
+    <AlertContext.Provider value={setAlert}>
     <main>
+      <Alert alert={alert} setAlert={setAlert} />
       <div className="menu">
         <LoginOrRegister userData={userData} loggedIn={setLoggedIn} display={display} register={setDisplay} />
         <Menu display={setDisplay} loggedIn={loggedIn}/>
@@ -53,6 +60,7 @@ function App() {
       {renderMiddleContent()}
       <div style={{position: "fixed",bottom: 0,right: 0}} >chatBoxes</div>
     </main>
+    </AlertContext.Provider>
   );
 }
 
