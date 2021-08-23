@@ -1,7 +1,6 @@
-import React,{useState, useContext} from 'react'
 import firebase from 'firebase/app'
 
-export default function Profile(props) {
+export default function YourProfile(props) {
     function userPicture(){
         if(props.userData.userProfilePicture === undefined){
             return <img className="userImg" src="pictures/no_profile_picture.png"/>
