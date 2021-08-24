@@ -1,4 +1,4 @@
-import React,{useState,useRef} from 'react'
+import React,{useState} from 'react'
 import firebase from 'firebase/app'
 
 const usersData = []
@@ -12,24 +12,53 @@ firebase.database().ref().child("users").get().then((snapshot)=>{
         })
     }
 })
+
 export default function TopBar() {
     const [searchValue,setSearchValue] = useState("Search friends...")
     const [users,setUsers] = useState([])
     
     function displayUsers(){
         setSearchValue("")
-        setUsers(usersData)
+        displayOnlySevenUsers(usersData)
+    }
+    function removeUsers(){
+        setTimeout(()=>{
+            setUsers([])
+            setSearchValue("Search friends...")
+        },70)
     }
     function openProfile(key){
         console.log(key)
     }
-    function removeUsers(){
-        setTimeout(()=>setUsers([]),70)
+    //Reduce number of displayead users
+    function displayOnlySevenUsers(userList) {
+        const displaySevenOrLess = userList.length > 7 ? 7 : userList.length
+        const sevenUsersDisplay = []
+        for(let i = 0;i < displaySevenOrLess;i++){
+            sevenUsersDisplay.push(userList[i])
+        }
+        setUsers(sevenUsersDisplay)
+    }
+    //Search what user typed in
+    function onChange(e) {
+        setSearchValue(e.target.value)
+        if(e.target.value !== ""){
+            const searchedUsers = []
+            const re = new RegExp(e.target.value,"i")
+            usersData.forEach((user)=>{
+                if(re.test(user[1] + " " + user[2])){
+                    searchedUsers.push(user)
+                }
+            })
+            displayOnlySevenUsers(searchedUsers)
+        }else {
+            displayOnlySevenUsers(usersData)
+        }
     }
     return (
         <nav className="topBar">
             <form onSubmit={(e)=>e.preventDefault()} onBlur={removeUsers}>
-                <input value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} onClick={displayUsers} />
+                <input value={searchValue} onChange={onChange} onClick={displayUsers} />
                 <ul className={"searchedUsers"} >
                     {users.map((user)=> <li key={user[0]}><button onClick={()=>openProfile(user[0])}>{user[1] + " " + user[2]}</button></li>)}
                 </ul>
