@@ -186,12 +186,20 @@ main {
   border-top: 2px solid $deepblue;
   border-bottom: 2px solid $deepblue;
   .profilePic {
-    position: relative;
-    padding: 0.5rem;
-    width: 180px;
-    border: 1px solid black;
-    border-radius: 50%;
-    background-color: $deepblue;
+    display: flex;
+    justify-content: center;
+    input[type="file"] {
+      display: none;
+    }
+    img {
+      position: relative;
+      padding: 0.5rem;
+      width: 180px;
+      border: 1px solid black;
+      border-radius: 50%;
+      cursor: pointer;
+      background-color: $deepblue;
+    }
   }
   .userDescripton {
     margin: 0.5rem 0 0.3rem 0;

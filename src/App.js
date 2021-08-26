@@ -1,5 +1,5 @@
 import React,{ useState } from "react";
-import firebase from "firebase"
+import firebase from "firebase/app"
 
 import Alert from "./components/alert"
 import { AlertContext } from "./Contexts/alert";
@@ -8,7 +8,7 @@ import LoginOrRegister from "./components/loginOrRegister";
 import RegisterForm from "./components/registerForm"
 import ProfileSettings from "./components/profileSettings";
 import TopBar from "./components/topBar";
-
+import Posts from "./components/posts";
 
 function App() {
   const [display,setDisplay] = useState("")
@@ -49,7 +49,10 @@ function App() {
       return <ProfileSettings userData={userData} loggedIn={setLoggedIn}/>
     }else{
       return (
-        <TopBar />
+          <div>
+            <TopBar />
+            <Posts />
+          </div>
         )
     }
   }
@@ -61,7 +64,9 @@ function App() {
         <LoginOrRegister userData={userData} loggedIn={setLoggedIn} display={display} register={setDisplay} />
         <Menu display={setDisplay} loggedIn={loggedIn}/>
       </div>
+
       {renderMiddleContent()}
+
       <div style={{position: "fixed",bottom: 0,right: 0}} >chatBoxes</div>
     </main>
     </AlertContext.Provider>
