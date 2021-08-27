@@ -13,7 +13,7 @@ firebase.database().ref().child("users").get().then((snapshot)=>{
     }
 })
 
-export default function TopBar() {
+export default function TopBar(props) {
     const [searchValue,setSearchValue] = useState("Search friends...")
     const [users,setUsers] = useState([])
     
@@ -28,7 +28,8 @@ export default function TopBar() {
         },70)
     }
     function openProfile(key){
-        console.log(key)
+        props.display(key)
+        props.displayUser(key)
     }
     //Reduce number of displayead users
     function displayOnlySevenUsers(userList) {

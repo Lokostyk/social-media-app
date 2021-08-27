@@ -56,12 +56,11 @@ export default function ProfileSettings(props) {
             props.loggedIn(false)
         })
     }
-    const [yoo,setYoo] = useState("")
-    function handleImageChange(params) {
+    const [userImg,setUserImg] = useState(props.userData.userProfilePicture)
+    function handleImageChange(e) {
         const userId = firebase.auth().currentUser.uid
-        const storage = firebase.storage().ref("users").child(userId).put(URL.createObjectURL(params.target.files[0]))
-        console.log(storage)
-        setYoo(URL.createObjectURL(params.target.files[0]))
+        firebase.storage().ref("users").child(userId).put(e.target.files[0])
+        setUserImg(URL.createObjectURL(e.target.files[0]))
     }
     return (
         <div className="profileSet">
@@ -72,7 +71,7 @@ export default function ProfileSettings(props) {
                 </div>
                 <label className="profilePic">
                     <input type="file" onChange={handleImageChange} accept="image/png, image/jpeg"/>
-                    <img src={yoo}/>
+                    <img src={userImg}/>
                 </label>
                 <textarea className="userDescripton" disabled={displayState} value={userDescription} onChange={(e)=>setUserDescription(e.target.value)}/>
                 <input type="text" value={userEmail} onChange={(e)=>setUserEmail(e.target.value)} disabled={displayState} required/>

@@ -9,6 +9,7 @@ import RegisterForm from "./components/registerForm"
 import ProfileSettings from "./components/profileSettings";
 import TopBar from "./components/topBar";
 import Posts from "./components/posts";
+import OtherUserProfile from "./components/otherUserProfile"
 
 function App() {
   const [display,setDisplay] = useState("")
@@ -25,6 +26,7 @@ function App() {
   const [userName,setUserName] = useState("")
   const [userSurname,setUserSurname] = useState("")
   const [userProfilePicture,setUserProfilePicture] = useState("")
+  const [displayUserProfile,setDisplayUserProfile] = useState("none")
   if(loggedIn === true){
     const user = firebase.auth().currentUser
     userData = {
@@ -37,8 +39,11 @@ function App() {
       if(snapshot.exists()){
           setUserName(importer.userName)
           setUserSurname(importer.userSurname)
-          setUserProfilePicture(importer.userPicture)
       }
+    })
+    const userId = user.uid
+    firebase.storage().ref("users").child(userId).getDownloadURL().then((url)=>{
+      setUserProfilePicture(url)
     })
   }
 
@@ -47,10 +52,13 @@ function App() {
       return <RegisterForm register={setDisplay} />
     }else if(display === "ProfileSettings" && loggedIn === true){
       return <ProfileSettings userData={userData} loggedIn={setLoggedIn}/>
-    }else{
+    }else if(displayUserProfile === display){
+      return <OtherUserProfile userId={displayUserProfile} />
+    }
+    else{
       return (
           <div>
-            <TopBar />
+            <TopBar display={setDisplay} displayUser={setDisplayUserProfile} />
             <Posts />
           </div>
         )
