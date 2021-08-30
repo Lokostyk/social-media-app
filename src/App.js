@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React,{ useState,useEffect } from "react";
 import firebase from "firebase/app"
 
 import Alert from "./components/alert"
@@ -12,53 +12,64 @@ import Posts from "./components/posts";
 import OtherUserProfile from "./components/otherUserProfile"
 
 function App() {
-  const [display,setDisplay] = useState("")
-  const [alert,setAlert] = useState({"style":"noDisplay","txt":"","functions":""})
-
   //Checking if user is logged in
   const [loggedIn,setLoggedIn] = useState(false)
   //Reloading user data
   if(loggedIn !== true && loggedIn !== false){
     setLoggedIn(true)
   }
+  
   //Getting user data from database
   let userData = {}
   const [userName,setUserName] = useState("")
   const [userSurname,setUserSurname] = useState("")
   const [userProfilePicture,setUserProfilePicture] = useState("")
-  const [displayUserProfile,setDisplayUserProfile] = useState("none")
+  const [userDescription,setUserDescription] = useState("")
+  
   if(loggedIn === true){
     const user = firebase.auth().currentUser
     userData = {
       userName,
       userSurname,
-      userProfilePicture
+      userProfilePicture,
+      userDescription
     }
     firebase.database().ref("users").child(user.uid).get().then((snapshot)=>{
       const importer = snapshot.val()
       if(snapshot.exists()){
-          setUserName(importer.userName)
-          setUserSurname(importer.userSurname)
+        setUserName(importer.userName)
+        setUserSurname(importer.userSurname)
+        setUserDescription(importer.userDescription)
       }
     })
+    //Uptading user image and checking if it is added
     const userId = user.uid
-    firebase.storage().ref("users").child(userId).getDownloadURL().then((url)=>{
-      setUserProfilePicture(url)
-    })
+    const storagePath =  firebase.storage().ref("users").child(userId)
+    storagePath.getMetadata().then((meta)=>{
+      if(meta.contentType !== "txt"){
+        storagePath.getDownloadURL().then((url)=>{
+          setUserProfilePicture(url)
+        })
+      }else {
+        setUserProfilePicture("pictures/no_profile_picture.png")
+      }
+    }) 
   }
-
+  
+  const [display,setDisplay] = useState("")
+  const [alert,setAlert] = useState({"style":"noDisplay","txt":"","functions":""})
   function renderMiddleContent(){
     if(display === "Register"){
       return <RegisterForm register={setDisplay} />
     }else if(display === "ProfileSettings" && loggedIn === true){
       return <ProfileSettings userData={userData} loggedIn={setLoggedIn}/>
-    }else if(displayUserProfile === display){
-      return <OtherUserProfile userId={displayUserProfile} />
+    }else if(display.length > 20){
+      return <OtherUserProfile userId={display} />
     }
     else{
       return (
           <div>
-            <TopBar display={setDisplay} displayUser={setDisplayUserProfile} />
+            <TopBar loggedIn={loggedIn} display={setDisplay}/>
             <Posts />
           </div>
         )

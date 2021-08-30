@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import firebase from 'firebase/app'
 
 const usersData = []
@@ -29,7 +29,6 @@ export default function TopBar(props) {
     }
     function openProfile(key){
         props.display(key)
-        props.displayUser(key)
     }
     //Reduce number of displayead users
     function displayOnlySevenUsers(userList) {

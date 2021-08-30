@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import firebase from 'firebase/app'
 import 'firebase/database'
+import 'firebase/storage'
 import { AlertContext } from '../Contexts/alert'
 
 export default function RegisterInput(props) {
@@ -16,17 +17,18 @@ export default function RegisterInput(props) {
             //Checking if name and surname contains only up to 15 letters
             if(/^[A-z]+$/i.test(name) && /^[A-z]+$/i.test(surname) 
             && surname.length <= 15 && name.length <= 15){
-            firebase.auth().createUserWithEmailAndPassword(email, password)
+                firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(()=>{
                     const userId = firebase.auth().currentUser.uid
+                    firebase.storage().ref("users").child(userId).put("",{contentType:"txt"})
                     firebase.database().ref("users/" + userId).set({
                         userName: name,
                         userSurname: surname,
-                        userEmail: email
+                        userEmail: email,
+                        userDescription: "No user description"
                     }).then(()=>{
                         props.register("Login")
                     })
-
                 })
                 .then(()=>{
                     setName("")

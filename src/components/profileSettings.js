@@ -11,7 +11,7 @@ export default function ProfileSettings(props) {
     const [displayState,setdisplayState] = useState(true)
     const [userName,setUserName] = useState(props.userData.userName)
     const [userSurname,setUserSurname] = useState(props.userData.userSurname)
-    const [userDescription,setUserDescription] = useState("No user description")
+    const [userDescription,setUserDescription] = useState(props.userData.userDescription)
     //Password and Email
     const [userEmail,setUserEmail] = useState(user.email)
     const [changePassword,setChangePassword] = useState(false)
@@ -25,6 +25,7 @@ export default function ProfileSettings(props) {
                 userName,
                 userSurname,
                 userEmail,
+                userDescription
             })
             //Changing email
             if(user.email !== userEmail){
@@ -71,7 +72,10 @@ export default function ProfileSettings(props) {
                 </div>
                 <label className="profilePic">
                     <input type="file" onChange={handleImageChange} accept="image/png, image/jpeg"/>
-                    <img src={userImg}/>
+                    <img src={userImg} />
+                    <div className="editPic">
+                        <img src="pictures/edit.svg" /> 
+                    </div>
                 </label>
                 <textarea className="userDescripton" disabled={displayState} value={userDescription} onChange={(e)=>setUserDescription(e.target.value)}/>
                 <input type="text" value={userEmail} onChange={(e)=>setUserEmail(e.target.value)} disabled={displayState} required/>
