@@ -10,6 +10,7 @@ import ProfileSettings from "./components/profileSettings";
 import TopBar from "./components/topBar";
 import Posts from "./components/posts";
 import OtherUserProfile from "./components/otherUserProfile"
+import AddPost from "./components/addPost";
 
 function App() {
   //Checking if user is logged in
@@ -70,6 +71,7 @@ function App() {
       return (
           <div>
             <TopBar loggedIn={loggedIn} display={setDisplay}/>
+            <AddPost />
             <Posts />
           </div>
         )

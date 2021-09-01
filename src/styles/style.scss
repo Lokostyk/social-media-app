@@ -358,3 +358,47 @@ main {
     }
   }
 }
+.postAdd {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  .postLabel {
+    text-align: center;
+    border: 3px solid $deepblue;
+    width: 30%;
+    border-bottom: none;
+    border-top: none;
+    border-bottom-right-radius: 11px;
+    border-bottom-left-radius: 11px;
+    transition: 1s all;
+    p {
+      margin-bottom: 5px;
+      padding-top: 5px;
+      color: $deepblue;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  }
+  textarea {
+    padding: 3px;
+    padding-inline-start: 5px;
+    width: 100%;
+    height: 2rem;
+    font-size: 1rem;
+    color: grey;
+    background-color: rgba(82, 171, 152, 0.4);
+    border: none;
+    border-bottom: 2px solid $deepblue;
+    border-top: 1px solid $deepblue;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
+    resize: none;
+    float: right;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+.fullView {
+  width: 80% !important;
+}
