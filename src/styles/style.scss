@@ -358,25 +358,30 @@ main {
     }
   }
 }
+//Posts and new post box
 .postAdd {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
   .postLabel {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
     border: 3px solid $deepblue;
+    border-bottom: 2px solid $deepblue;
     width: 30%;
-    border-bottom: none;
     border-top: none;
     border-bottom-right-radius: 11px;
     border-bottom-left-radius: 11px;
-    transition: 1s all;
+    transition: 0.8s all;
     p {
       margin-bottom: 5px;
       padding-top: 5px;
       color: $deepblue;
       font-family: Arial, Helvetica, sans-serif;
+      transition: 0.8s all;
     }
   }
   textarea {
@@ -388,17 +393,39 @@ main {
     color: grey;
     background-color: rgba(82, 171, 152, 0.4);
     border: none;
-    border-bottom: 2px solid $deepblue;
     border-top: 1px solid $deepblue;
-    border-bottom-left-radius: 9px;
-    border-bottom-right-radius: 9px;
     resize: none;
     float: right;
+    transition: 0.7s all;
     &:focus {
       outline: none;
     }
   }
+  .postBtns {
+    display: flex;
+    width: 60%;
+    max-height: 0px;
+    transition: 0.4s all;
+  }
 }
 .fullView {
-  width: 80% !important;
+  .postLabel {
+    width: 60% !important;
+    border-bottom: 2px solid $deepblue;
+  }
+  p {
+    margin-top: 12px;
+  }
+  textarea {
+    margin-bottom: 10px;
+    width: 90%;
+    height: 8rem;
+    border: 1px solid $deepblue;
+    border-radius: 8px;
+  }
+  .postBtns {
+    max-height: 100px;
+    margin-bottom: 0.5rem;
+    transition: 1.5s all;
+  }
 }
