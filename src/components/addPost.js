@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import firebase from "firebase/app"
 import "firebase/storage"
 
-export default function AddPost() {
-    
+export default function AddPost(props) {
     const [postContent,setPostContent] = useState("Create your post here")
     const [view,setView] = useState("")
     const [photo,setPhoto] = useState(false)
@@ -17,11 +16,13 @@ export default function AddPost() {
         setPostContent("")
     }
     function addPost() {
+        const userId = firebase.auth().currentUser.uid
         const timeStamp = new Date().getTime()
         firebase.database().ref("posts/" + timeStamp).set({
-            data: timeStamp,
+            date: timeStamp,
             content: postContent,
-            photoAdded: false
+            photoAdded: false,
+            userId: userId
         }).then(()=>{
             setView("")
             setPostContent("")
@@ -40,21 +41,25 @@ export default function AddPost() {
             setView("")
         }
     })
-    return (
-        <div className={`postAdd ${view}`}>
-            <label className="postLabel" onClick={expand}>
-                <p>Add new post</p>
-                <textarea className={`postTextarea ${view}`} value={postContent} onChange={(e)=>setPostContent(e.target.value)}/>
-                {photo ? <a href={URL.createObjectURL(photo)} target="_blank">{photo.name}</a>: ""}
-                <div className="postBtns">
-                    <button className="rBtn" onClick={clearBox}>Clear</button>
-                    <label className="rBtn">
-                        <input type="file" onChange={addPhoto} accept="image/png, image/jpeg" />
-                        <button className="rBtn photoAdd">Photo</button>
+    if(props.loggedIn){
+        return (
+                <div className={`postAdd ${view}`}>
+                    <label className="postLabel" onClick={expand}>
+                        <p>Add new post</p>
+                        <textarea className={`postTextarea ${view}`} value={postContent} onChange={(e)=>setPostContent(e.target.value)}/>
+                        {photo ? <a href={URL.createObjectURL(photo)} target="_blank">{photo.name}</a>: ""}
+                        <div className="postBtns">
+                            <button className="rBtn" onClick={clearBox}>Clear</button>
+                            <label className="rBtn">
+                                <input type="file" onChange={addPhoto} accept="image/png, image/jpeg" />
+                                <button className="rBtn photoAdd">Photo</button>
+                            </label>
+                            <button className="rBtn" onClick={addPost}>Add post</button>
+                        </div>
                     </label>
-                    <button className="rBtn" onClick={addPost}>Add post</button>
                 </div>
-            </label>
-        </div>
-    )
+        )
+    }else {
+        return <div>Post adding is avialable for logged users!</div>
+    }
 }

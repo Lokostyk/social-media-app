@@ -11,8 +11,8 @@ export default function LoginOrRegister(props){
     }else{
         return (
             <div className="btns">
-                <button className="loginBtns" onClick={()=> setDisplay("Login")}>Login</button>
-                <button className="loginBtns" onClick={()=> props.register("Register")}>Register</button>
+                <button className="logInBtns" onClick={()=> setDisplay("Login")}>Log in</button>
+                <button className="logInBtns" onClick={()=> props.register("Register")}>Register</button>
             </div>
         )
     }

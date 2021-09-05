@@ -23,7 +23,7 @@ export default function YourProfile(props) {
             {userPicture()}
             {value=>console.log(value)}
             <div className="userInfo" >{props.userData.userName} {props.userData.userSurname}</div>
-            <button className="loginBtns" onClick={signOut}>Sign out</button>        
+            <button className="logInBtns" onClick={signOut}>Sign out</button>        
         </div>
     )
 }

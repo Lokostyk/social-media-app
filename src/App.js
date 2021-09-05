@@ -71,7 +71,7 @@ function App() {
       return (
           <div>
             <TopBar loggedIn={loggedIn} display={setDisplay}/>
-            <AddPost />
+            <AddPost loggedIn={loggedIn}/>
             <Posts />
           </div>
         )

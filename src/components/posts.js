@@ -2,28 +2,47 @@ import React, {useState,useEffect} from 'react'
 import firebase from 'firebase/app'
 
 export default function Posts() {
-    const [posts,setPosts] = useState("")
+    const [posts,setPosts] = useState([])
+    const [showPostSettings,setShowPostSettings] = useState("")
     
-    if(posts === ""){renderSeven()}
-    function renderSeven(){
-        const data = []
-        
-        firebase.database().ref("posts/").limitToLast(7).get().then((snapshot)=> {
-            for(let i in snapshot.val()){
-                data.push(snapshot.val()[i])
-            }
-            setPosts(data)
-        })
-    }
-    function render(items){
-        if(items !== ""){
-            return items.map((e)=> {return <div>{e.content}</div>}).reverse()
+    function showSettings(userId){
+        const currentUserId = firebase.auth().currentUser.uid
+        if(userId === currentUserId){
+            return "showPostSettings"
+        }else {
+            return ""
         }
+    }
+    function renderPosts(){
+
+        firebase.database().ref("posts/").limitToLast(1).get().then((snapshot)=> {
+            if(snapshot.val() !== null){
+                setPosts([...posts,snapshot.val()[Object.keys(snapshot.val())]])
+            }
+        })
     }
     return (
         <div>
-            {render(posts)}
-            <button onClick={()=>setPosts("")}>YOO</button>
+            {posts.map(item => 
+                {return (
+                    <div className={`${showSettings(item.userId)} post`} key={item.date}>
+                        <div className="postBox">
+                            <div className="settings">
+                                <button>
+                                    <img src="pictures/gear_icon.png" />
+                                </button>
+                                <ul>
+                                    <li>yo</li>
+                                    <li>yo</li>
+                                    <li>yo</li>
+                                </ul>
+                            </div>
+                            <p>{item.content}</p>
+
+                        </div>
+                    </div>
+                )})}
+            <button onClick={renderPosts}>YOO</button>
         </div>
     )
 }
