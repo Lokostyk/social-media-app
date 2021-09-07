@@ -72,7 +72,7 @@ function App() {
           <div>
             <TopBar loggedIn={loggedIn} display={setDisplay}/>
             <AddPost loggedIn={loggedIn}/>
-            <Posts />
+            <Posts loggedIn={loggedIn}/>
           </div>
         )
     }

@@ -486,7 +486,6 @@ main {
       border: none;
       background-color: inherit;
       img {
-        width: 25px;
         height: 25px;
       }
     }
@@ -504,6 +503,11 @@ main {
         background-color: $deepblue;
         border: 1px solid white;
         border-bottom: none;
+        z-index: 10;
+        button {
+          width: 100%;
+          color: inherit;
+        }
         &:hover {
           cursor: pointer;
           color: $deepblue;
