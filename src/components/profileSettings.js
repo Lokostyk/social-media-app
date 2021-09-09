@@ -17,7 +17,7 @@ export default function ProfileSettings(props) {
     const [changePassword,setChangePassword] = useState(false)
     const [userPassword,setUserPassword] = useState("")
     const [newUserPassword,setNewUserPassword] = useState("")
-
+    
     function submit(){
         if(/^[A-z]+$/i.test(userName) && /^[A-z]+$/i.test(userSurname) 
         && userSurname.length <= 15 && userName.length <= 15){

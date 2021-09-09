@@ -21,42 +21,37 @@ function App() {
   }
   
   //Getting user data from database
-  let userData = {}
-  const [userName,setUserName] = useState("")
-  const [userSurname,setUserSurname] = useState("")
-  const [userProfilePicture,setUserProfilePicture] = useState("")
-  const [userDescription,setUserDescription] = useState("")
-  
-  if(loggedIn === true){
+  const [userData,setUserData] = useState([""])
+
+  if(loggedIn === true && userData[0] === ""){
     const user = firebase.auth().currentUser
-    userData = {
-      userName,
-      userSurname,
-      userProfilePicture,
-      userDescription
-    }
+    let uData = []
     firebase.database().ref("users").child(user.uid).get().then((snapshot)=>{
       const importer = snapshot.val()
       if(snapshot.exists()){
-        setUserName(importer.userName)
-        setUserSurname(importer.userSurname)
-        setUserDescription(importer.userDescription)
+        uData = {
+          userName: importer.userName,
+          userSurname: importer.userSurname,
+          userDescription: importer.userDescription
+        }
       }
+    }).then(()=>{
+      //Uptading user image and checking if it is added
+      const userId = user.uid
+      const storagePath =  firebase.storage().ref("users").child(userId)
+      storagePath.getMetadata().then((meta)=>{
+        if(meta.contentType !== "txt"){
+          storagePath.getDownloadURL().then((url)=>{
+            Object.assign(uData,{userProfilePicture: url})
+            setUserData(uData)
+          })
+        }else {
+            Object.assign(uData,{userProfilePicture: "pictures/no_profile_picture.png"})
+            setUserData(uData)
+        }
+      }) 
     })
-    //Uptading user image and checking if it is added
-    const userId = user.uid
-    const storagePath =  firebase.storage().ref("users").child(userId)
-    storagePath.getMetadata().then((meta)=>{
-      if(meta.contentType !== "txt"){
-        storagePath.getDownloadURL().then((url)=>{
-          setUserProfilePicture(url)
-        })
-      }else {
-        setUserProfilePicture("pictures/no_profile_picture.png")
-      }
-    }) 
   }
-  
   const [display,setDisplay] = useState("")
   const [alert,setAlert] = useState({"style":"noDisplay","txt":"","functions":""})
     return (
@@ -69,7 +64,7 @@ function App() {
       </div>
       {/* ******** Middle content ******** */}
       {display === "Register"? <RegisterForm display={display} register={setDisplay} />: ""}
-      {display === "ProfileSettings"?<ProfileSettings display={display} userData={userData} loggedIn={setLoggedIn}/>: ""}
+      {(display === "ProfileSettings" && loggedIn)?<ProfileSettings display={display} userData={userData} loggedIn={setLoggedIn}/>: ""}
       {display.length > 20?<OtherUserProfile userId={display} />: ""}
       {display === ""?
           (<div>
