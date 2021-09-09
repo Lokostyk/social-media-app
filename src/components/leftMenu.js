@@ -10,4 +10,4 @@ function Menu(props){
         </ul>
     )
 }
-export default Menu
+export default React.memo(Menu)

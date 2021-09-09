@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import LoginForm from "./loginForm"
 import YourProfile from "./yourProfile"
 
-export default function LoginOrRegister(props){
+ function LoginOrRegister(props){
     const [display,setDisplay] = useState("")
     if(display === "Login" || props.display === "Login"){
         return <LoginForm loggedIn={props.loggedIn} login={setDisplay}/>
@@ -17,3 +17,4 @@ export default function LoginOrRegister(props){
         )
     }
 }
+export default React.memo(LoginOrRegister)

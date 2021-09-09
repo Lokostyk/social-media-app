@@ -59,34 +59,24 @@ function App() {
   
   const [display,setDisplay] = useState("")
   const [alert,setAlert] = useState({"style":"noDisplay","txt":"","functions":""})
-  function renderMiddleContent(){
-    if(display === "Register"){
-      return <RegisterForm register={setDisplay} />
-    }else if(display === "ProfileSettings" && loggedIn === true){
-      return <ProfileSettings userData={userData} loggedIn={setLoggedIn}/>
-    }else if(display.length > 20){
-      return <OtherUserProfile userId={display} />
-    }
-    else{
-      return (
-          <div>
-            <TopBar loggedIn={loggedIn} display={setDisplay}/>
-            <AddPost loggedIn={loggedIn}/>
-            <Posts loggedIn={loggedIn}/>
-          </div>
-        )
-    }
-  }
-  return (
-    <AlertContext.Provider value={setAlert}>
+    return (
+      <AlertContext.Provider value={setAlert}>
     <main>
       <Alert alert={alert} setAlert={setAlert} />
       <div className="menu">
         <LoginOrRegister userData={userData} loggedIn={setLoggedIn} display={display} register={setDisplay} />
         <Menu display={setDisplay} loggedIn={loggedIn}/>
       </div>
-
-      {renderMiddleContent()}
+      {/* ******** Middle content ******** */}
+      {display === "Register"? <RegisterForm display={display} register={setDisplay} />: ""}
+      {display === "ProfileSettings"?<ProfileSettings display={display} userData={userData} loggedIn={setLoggedIn}/>: ""}
+      {display.length > 20?<OtherUserProfile userId={display} />: ""}
+      {display === ""?
+          (<div>
+            <TopBar loggedIn={loggedIn} display={setDisplay}/>
+            <AddPost loggedIn={loggedIn}/>
+            <Posts loggedIn={loggedIn}/>
+          </div>):""}
 
       <div style={{position: "fixed",bottom: 0,right: 0}} >chatBoxes</div>
     </main>
@@ -94,4 +84,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
