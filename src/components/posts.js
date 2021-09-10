@@ -3,15 +3,22 @@ import firebase from 'firebase/app'
 
 export default function Posts(props) {
     const [posts,setPosts] = useState([])
-    
-    function renderPosts(){
-        const loadPosts = []
+
+    async function renderPosts(){
+        const loadPosts = new Array()
         firebase.database().ref("posts/").get().then((snapshot)=> {
             if(snapshot.val() !== null){
+                let index = 0
                 for(let i in snapshot.val()){
-                    loadPosts.push(snapshot.val()[i])
+                    firebase.database().ref("users/"+ snapshot.val()[i].userId).get().then((userData)=>{
+                        const {userName,userSurname} = userData.val()
+                        loadPosts.push(Object.assign({userName,userSurname},snapshot.val()[i]))
+                        index++
+                        if(index === Object.keys(snapshot.val()).length){
+                            setPosts([...posts,...loadPosts])
+                        }
+                    })
                 }
-                setPosts([...posts,...loadPosts])
             }else{
                 setPosts([])
             }
@@ -44,6 +51,8 @@ export default function Posts(props) {
                 {return (
                     <div className={`post`} key={item.date}>
                         <div className="postBox">
+                            <p className="topUserInfo">{item.userName + " "}{item.userSurname}</p>
+                            <p>{item.content}</p>
                             <div onClick={(e)=>e.stopPropagation()} className={`${props.loggedIn && (firebase.auth().currentUser.uid === item.userId)? "showPostSettings" : ""} settings`}>
                                 <button onClick={(e)=>expandPostSettings(e)}>
                                     <img src="pictures/gear_icon.png" />
@@ -53,8 +62,6 @@ export default function Posts(props) {
                                     <li><button onClick={()=> deletePost(item.date)}>Delete</button></li>
                                 </ul>
                             </div>
-                            <p>{item.content}</p>
-
                         </div>
                     </div>
                 )})}
