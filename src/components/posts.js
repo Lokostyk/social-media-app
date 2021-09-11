@@ -4,7 +4,7 @@ import firebase from 'firebase/app'
 export default function Posts(props) {
     const [posts,setPosts] = useState([])
 
-    async function renderPosts(){
+    function renderPosts(){
         const loadPosts = new Array()
         firebase.database().ref("posts/").get().then((snapshot)=> {
             if(snapshot.val() !== null){
@@ -52,7 +52,8 @@ export default function Posts(props) {
                     <div className={`post`} key={item.date}>
                         <div className="postBox">
                             <p className="topUserInfo">{item.userName + " "}{item.userSurname}</p>
-                            <p>{item.content}</p>
+                            <p className="postTextContent" style={item.photoUrl?{textAlign: "center"}:{}}>{item.content}</p>
+                            <img src={item.photoUrl} className={item.photoUrl ? "postImage":"noDisplay"} />
                             <div onClick={(e)=>e.stopPropagation()} className={`${props.loggedIn && (firebase.auth().currentUser.uid === item.userId)? "showPostSettings" : ""} settings`}>
                                 <button onClick={(e)=>expandPostSettings(e)}>
                                     <img src="pictures/gear_icon.png" />

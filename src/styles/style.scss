@@ -11,6 +11,9 @@ main {
   grid-template-columns: 20% 80%;
   background-color: #f5f5f5;
 }
+.noDisplay {
+  display: none;
+}
 //Alerts
 .topAlert {
   position: absolute;
@@ -36,9 +39,6 @@ main {
     border: none;
     background-color: rgba(82, 171, 152, 0.1);
   }
-}
-.noDisplay {
-  display: none;
 }
 //Left area with login/register form and list
 .menu {
@@ -402,7 +402,6 @@ main {
     }
   }
   a {
-    margin-bottom: 0.3rem;
     max-height: 0;
     overflow: hidden;
     transition: 0.3s all;
@@ -451,6 +450,7 @@ main {
     border-radius: 8px;
   }
   a {
+    margin-bottom: 0.3rem;
     max-height: 100px;
   }
   .postBtns {
@@ -468,23 +468,35 @@ main {
   .postBox {
     position: relative;
     justify-content: start;
-    padding: 1rem;
+    padding: 0.5rem 0 1rem 0;
     width: 70%;
     border: 1px solid $deepblue;
     border-radius: 8px;
     .topUserInfo {
       position: relative;
+      padding-inline-start: 0.4rem;
       color: $deepblue;
-      padding-bottom: 0.1rem;
       &:before {
         content: "";
         position: absolute;
         bottom: -2px;
-        left: -1rem;
+        left: 0px;
         background-color: $deepblue;
         width: 20%;
         height: 1px;
       }
+    }
+    .postTextContent {
+      margin-top: 0.4rem;
+      padding-inline-start: 1rem;
+    }
+    .postImage {
+      display: flex;
+      margin-left: auto;
+      margin-right: auto;
+      height: 25rem;
+      border: 1px solid rgba(224, 191, 3, 0.2);
+      border-radius: 2px;
     }
   }
   .settings {
