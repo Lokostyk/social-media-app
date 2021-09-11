@@ -67,7 +67,7 @@ function App() {
       {(display === "ProfileSettings" && loggedIn)?<ProfileSettings display={display} userData={userData} loggedIn={setLoggedIn}/>: ""}
       {display.length > 20?<OtherUserProfile userId={display} />: ""}
       {display === ""?
-          (<div>
+          (<div id="defaultMiddleContent">
             <TopBar loggedIn={loggedIn} display={setDisplay}/>
             <AddPost loggedIn={loggedIn}/>
             <Posts loggedIn={loggedIn}/>

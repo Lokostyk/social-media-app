@@ -3,10 +3,11 @@ import firebase from 'firebase/app'
 
 export default function Posts(props) {
     const [posts,setPosts] = useState([])
+    const lastPost = 100
 
     function renderPosts(){
         const loadPosts = new Array()
-        firebase.database().ref("posts/").get().then((snapshot)=> {
+        firebase.database().ref("posts/").limitToLast(3).get().then((snapshot)=> {
             if(snapshot.val() !== null){
                 let index = 0
                 for(let i in snapshot.val()){
@@ -15,6 +16,7 @@ export default function Posts(props) {
                         loadPosts.push(Object.assign({userName,userSurname},snapshot.val()[i]))
                         index++
                         if(index === Object.keys(snapshot.val()).length){
+                            loadPosts.reverse()
                             setPosts([...posts,...loadPosts])
                         }
                     })
@@ -45,6 +47,10 @@ export default function Posts(props) {
                 setPosts(posts.filter((item)=>{return item.date !== date}))
         })
     }
+    window.addEventListener("scroll",(e)=>{
+        const documentHeight = document.querySelector("#defaultMiddleContent").getBoundingClientRect()
+        console.log(documentHeight)
+    })
     return (
         <React.Fragment>
             {posts.map(item => 

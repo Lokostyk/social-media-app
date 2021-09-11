@@ -45,6 +45,9 @@ main {
   display: grid;
   justify-content: center;
   align-items: center;
+  position: sticky;
+  left: 0;
+  top: 0;
   background-color: $deepblue;
   height: 100vh;
   ul {
@@ -468,7 +471,7 @@ main {
   .postBox {
     position: relative;
     justify-content: start;
-    padding: 0.5rem 0 1rem 0;
+    padding: 0.6rem 0 0.5rem 0;
     width: 70%;
     border: 1px solid $deepblue;
     border-radius: 8px;
@@ -481,9 +484,9 @@ main {
         position: absolute;
         bottom: -2px;
         left: 0px;
-        background-color: $deepblue;
         width: 20%;
         height: 1px;
+        background-color: $deepblue;
       }
     }
     .postTextContent {
@@ -492,8 +495,7 @@ main {
     }
     .postImage {
       display: flex;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0.2rem auto 0 auto;
       height: 25rem;
       border: 1px solid rgba(224, 191, 3, 0.2);
       border-radius: 2px;
