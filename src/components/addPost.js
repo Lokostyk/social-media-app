@@ -14,12 +14,12 @@ export default function AddPost(props) {
     }
     function addPost() {
         const userId = firebase.auth().currentUser.uid
-        const timeStamp = new Date().getTime()
+        const timestamp = new Date().getTime()
         if(photo){
-            firebase.storage().ref("posts").child(timeStamp + "").put(photo).then(()=>{
-                firebase.storage().ref("posts").child(timeStamp + "").getDownloadURL().then((url)=>{
-                    firebase.database().ref("posts/" + timeStamp).set({
-                        date: timeStamp,
+            firebase.storage().ref("posts").child(timestamp + "").put(photo).then(()=>{
+                firebase.storage().ref("posts").child(timestamp + "").getDownloadURL().then((url)=>{
+                    firebase.database().ref("posts/" + timestamp).set({
+                        date: timestamp,
                         content: postContent,
                         photoUrl: url,
                         userId: userId
@@ -31,12 +31,13 @@ export default function AddPost(props) {
                 })
             })
         }else{
-            firebase.database().ref("posts/" + timeStamp).set({
-                date: timeStamp,
-                content: postContent,
-                photoUrl: false,
-                userId: userId
-            }).then(()=>{
+            firebase.firestore().collection("users").add({
+                    date: timestamp,
+                    content: postContent,
+                    photoUrl: "",
+                    userId
+            })
+            .then(()=>{
                 setView("")
                 setPostContent("")
         })}

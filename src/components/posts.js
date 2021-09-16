@@ -3,42 +3,47 @@ import firebase from 'firebase/app'
 
 export default function Posts(props) {    
     const [posts,setPosts] = useState([])
-    const lastPost = 100
+    const [loadNewPosts,setLoadNewPosts] = useState(true)
+    const [lastPostDate,setLastPostDate] = useState(Infinity)
 
-    useEffect(renderPosts,[])
-    function renderPosts(){
+    useEffect(()=>{
+        console.log("wywóz")
         const loadPosts = new Array()
-        firebase.database().ref("posts/").orderByChild("date").get().then((snapshot)=> {
-            if(snapshot.val() !== null){
-                let index = 0
-                for(let i in snapshot.val()){
-                    firebase.database().ref("users/"+ snapshot.val()[i].userId).get().then((userData)=>{
+        firebase.firestore().collection("users").where("date","<",lastPostDate).orderBy("date").limitToLast(3).get().then((snapshot)=> {
+            let index = 0
+            snapshot.forEach(doc =>{
+                if(doc.data().date === lastPostDate){
+                    setLastPostDate(true)
+                    return
+                }
+                firebase.database().ref("users/"+ doc.data().userId).get().then((userData)=>{
                         const {userName,userSurname} = userData.val()
-                        loadPosts.push(Object.assign({userName,userSurname},snapshot.val()[i]))
+                        loadPosts.push(Object.assign({userName,userSurname},doc.data()))
                         index++
-                        if(index === Object.keys(snapshot.val()).length){
+                        if(index === 1){
+                            setLastPostDate(doc.data().date)
+                        }
+                         if(index === snapshot.size){
                             loadPosts.reverse()
                             setPosts([...posts,...loadPosts])
                         }
                     })
-                }
-            }else{
-                setPosts([])
-            }
+            })
         })
-    }
+    },[loadNewPosts])
     //Function will load more if last post is on screen
     function loadMorePosts(node) {
-        if(!node) return
+        if(!node && lastPostDate) return
         const observer = new IntersectionObserver(entries=>{
             if(entries[0].isIntersecting){
-                renderPosts()
+                observer.disconnect()
+                setLoadNewPosts(!loadNewPosts)
+            }else{
                 observer.disconnect()
             }
         })
         observer.observe(node)
     }
-
     function expandPostSettings(e) {
         const list = e.target.parentElement.nextElementSibling
         list.classList.toggle("expandSettings")
