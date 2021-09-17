@@ -1,6 +1,6 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="Frame 2">
-<rect id="Rectangle 1" x="4.53553" y="1" width="26" height="5" rx="2.5" transform="rotate(45 4.53553 1)" fill="#FF6961"/>
-<rect id="Rectangle 2" x="1" y="19.3848" width="26" height="5" rx="2.5" transform="rotate(-45 1 19.3848)" fill="#FF6961"/>
+<rect id="Rectangle 1" x="4.53553" y="1" width="26" height="5" rx="2.5" transform="rotate(45 4.53553 1)" fill="red"/>
+<rect id="Rectangle 2" x="1" y="19.3848" width="26" height="5" rx="2.5" transform="rotate(-45 1 19.3848)" fill="red"/>
 </g>
 </svg>

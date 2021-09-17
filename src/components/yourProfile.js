@@ -19,11 +19,16 @@ export default function YourProfile(props) {
         })
     }
     return (
-        <div className="userWrapper">
-            {userPicture()}
-            {value=>console.log(value)}
-            <div className="userInfo" >{props.userData.userName} {props.userData.userSurname}</div>
-            <button className="logInBtns" onClick={signOut}>Sign out</button>        
-        </div>
+        <>{props.userData[0] !== ""?
+            <div className="userWrapper">
+                {userPicture()}
+                {value=>console.log(value)}
+                <div className="userInfo" >{props.userData.userName} {props.userData.userSurname}</div>
+                <button className="logInBtns" onClick={signOut}>Sign out</button>        
+            </div>:
+            <div className="loader">
+                <div class="lds-roller white"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+        }</>
     )
 }

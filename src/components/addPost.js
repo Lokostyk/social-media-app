@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import firebase from "firebase/app"
 import "firebase/storage"
+import { AlertContext } from '../Contexts/alert'
 
 export default function AddPost(props) {
+    const setAlert = useContext(AlertContext)
+
     const [postContent,setPostContent] = useState("Create your post here")
     const [view,setView] = useState("")
     const [photo,setPhoto] = useState(false)
@@ -18,7 +21,7 @@ export default function AddPost(props) {
         if(photo){
             firebase.storage().ref("posts").child(timestamp + "").put(photo).then(()=>{
                 firebase.storage().ref("posts").child(timestamp + "").getDownloadURL().then((url)=>{
-                    firebase.database().ref("posts/" + timestamp).set({
+                    firebase.firestore().collection("posts").add({
                         date: timestamp,
                         content: postContent,
                         photoUrl: url,
@@ -27,11 +30,12 @@ export default function AddPost(props) {
                         setView("")
                         setPostContent("")
                         setPhoto("")
+                        setAlert({"style": "topAlert","txt":"Post added!","functions":"delete"})
                     })
                 })
             })
         }else{
-            firebase.firestore().collection("users").add({
+            firebase.firestore().collection("posts").add({
                     date: timestamp,
                     content: postContent,
                     photoUrl: "",
@@ -40,6 +44,7 @@ export default function AddPost(props) {
             .then(()=>{
                 setView("")
                 setPostContent("")
+                        setAlert({"style": "topAlert","txt":"Post added!","functions":"delete"})
         })}
     }
     window.addEventListener("click",()=>{
@@ -53,7 +58,11 @@ export default function AddPost(props) {
                     <label className="postLabel" onClick={expand}>
                         <p>Add new post</p>
                         <textarea className={`postTextarea ${view}`} value={postContent} onChange={(e)=>setPostContent(e.target.value)}/>
-                        {photo ? <a href={URL.createObjectURL(photo)} target="_blank">{photo.name}</a>: ""}
+                        {photo ? 
+                            <div className="postImage">
+                                <a href={URL.createObjectURL(photo)} target="_blank">{photo.name}</a>
+                                <button onClick={()=> setPhoto(false)}><img src="pictures/delete.svg" /></button>
+                            </div>: ""}
                         <div className="postBtns">
                             <button className="rBtn" onClick={()=>setPostContent("")}>Clear</button>
                             <label className="rBtn">
@@ -66,6 +75,6 @@ export default function AddPost(props) {
                 </div>
         )
     }else {
-        return <div className="postAdd">Post adding is avialable for logged users!</div>
+        return <div className="postAdd noUserLogged"><span>Post adding is avialable for logged users!</span></div>
     }
 }

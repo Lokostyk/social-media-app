@@ -29,6 +29,7 @@ export default function OtherUserProfile(props) {
 
     return (
         <div className="profileSet">
+            {userData.userName !== "--"?
             <div className="formSet">
                 <div className="surName"> 
                     <p>{userData.userName}</p>
@@ -38,7 +39,10 @@ export default function OtherUserProfile(props) {
                     <img src={userData.userProfilePicture} />
                 </div>
                 <p style={{marginTop: .5 + "rem"}}>{userData.userDescription}</p>
-            </div>
+            </div>:
+            <div className="loader">
+                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>}
         </div>
     )
 }
