@@ -1,5 +1,6 @@
 import React, {useState,useEffect, useCallback , useRef} from 'react'
 import firebase from 'firebase/app'
+import InnerPost from './innerPost'
 
 export default function Posts(props) {    
     const [posts,setPosts] = useState([])
@@ -50,19 +51,6 @@ export default function Posts(props) {
         })
         if(node) observer.current.observe(node)
     },[hasMore,loading])
-    function expandPostSettings(e) {
-        const list = e.target.parentElement.nextElementSibling
-        list.classList.toggle("expandSettings")
-        //Close all oppend settings options
-        window.addEventListener("click",closeAll)
-        function closeAll() {
-            const allSettings = document.querySelectorAll("#list")
-            allSettings.forEach((item)=>{
-                item.classList.remove("expandSettings")
-            })
-            window.removeEventListener("click",closeAll)
-        }
-    }
     function editPost(date) {
         console.log(date)
     }
@@ -79,37 +67,11 @@ export default function Posts(props) {
             {posts.map((item,index) => 
                 {return (posts.length - 1 === index?
                     <div className="post" ref={lastBookRef} key={item.date}>
-                        <div className="postBox">
-                            <p className="topUserInfo">{item.userName + " "}{item.userSurname}</p>
-                            <p className="postTextContent" style={item.photoUrl?{textAlign: "center"}:{}}>{item.content}</p>
-                            <img src={item.photoUrl} className={item.photoUrl ? "postImage":"noDisplay"} />
-                            <div onClick={(e)=>e.stopPropagation()} className={`${props.loggedIn && (firebase.auth().currentUser.uid === item.userId)? "showPostSettings" : ""} settings`}>
-                                <button onClick={(e)=>expandPostSettings(e)}>
-                                    <img src="pictures/gear_icon.png" />
-                                </button>
-                                <ul id="list">
-                                    <li><button onClick={()=> editPost(item.date)}>Edit</button></li>
-                                    <li><button onClick={()=> deletePost(item.postId,item.photoUrl,item.date)}>Delete</button></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <InnerPost item={item} loggedIn={props.loggedIn} deletePost={deletePost} editPost={editPost}/>
                     </div>
                     :
                     <div className="post" key={item.date}>
-                        <div className="postBox">
-                            <p className="topUserInfo">{item.userName + " "}{item.userSurname}</p>
-                            <p className="postTextContent" style={item.photoUrl?{textAlign: "center"}:{}}>{item.content}</p>
-                            <img src={item.photoUrl} className={item.photoUrl ? "postImage":"noDisplay"} />
-                            <div onClick={(e)=>e.stopPropagation()} className={`${props.loggedIn && (firebase.auth().currentUser.uid === item.userId)? "showPostSettings" : ""} settings`}>
-                                <button onClick={(e)=>expandPostSettings(e)}>
-                                    <img src="pictures/gear_icon.png" />
-                                </button>
-                                <ul id="list">
-                                    <li><button onClick={()=> editPost(item.date)}>Edit</button></li>
-                                    <li><button onClick={()=> deletePost(item.postId,item.photoUrl,item.date)}>Delete</button></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <InnerPost item={item} loggedIn={props.loggedIn} deletePost={deletePost} editPost={editPost}/>
                     </div>
                 )})}
                 {loading?
