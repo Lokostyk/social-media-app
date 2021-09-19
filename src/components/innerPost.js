@@ -4,11 +4,26 @@ import { useEffect } from 'react/cjs/react.development'
 
 export default function InnerPost(props) {
     const item = props.item
-    const [alreadyHaveHeart,setAlreadyHaveHeart] = useState(false)
+    const userId = firebase.auth().currentUser?firebase.auth().currentUser.uid:false
+    const [heartCounter,setHeartCounter] = useState(item.postHearts)
 
-    useEffect(()=>{
-        
-    },[alreadyHaveHeart])
+    function heartHandler() {
+        if(!userId) return
+        if(item.postHearts.indexOf(userId) === -1 && heartCounter.indexOf(userId) === -1){
+            firebase.firestore().collection("posts").doc(item.postId).update({
+                postHearts:  firebase.firestore.FieldValue.arrayUnion(`${userId}`)
+            }).then(()=>{
+                setHeartCounter([...heartCounter,userId])
+            })
+        }else{
+            firebase.firestore().collection("posts").doc(item.postId).update({
+                 postHearts:  firebase.firestore.FieldValue.arrayRemove(`${userId}`)
+            }).then(()=>{
+                setHeartCounter(heartCounter.filter(id => id !== userId))
+            })
+        }
+    }
+
     function expandPostSettings(e) {
         const list = e.target.parentElement.nextElementSibling
         list.classList.toggle("expandSettings")
@@ -29,8 +44,8 @@ export default function InnerPost(props) {
             <img src={item.photoUrl} className={item.photoUrl ? "postImage":"noDisplay"} />
             <div className="heartsCommentsBox">
                 <div className="heartBox">
-                    <button><img className="heart" src="pictures/heart.svg"/></button>
-                    <div style={{textAlign:"center",color:"#00a889"}}>{item.postHearts}</div>
+                    <button onClick={heartHandler}><img className={`heart ${heartCounter.indexOf(userId) === -1?"":"active"}`} src="pictures/heart.svg"/></button>
+                    <div style={{textAlign:"center",color:"#00a889"}}>{heartCounter.length}</div>
                 </div>
                 <button className="commentsBox"><p>Comments <span>(2)</span></p></button>
             </div>
