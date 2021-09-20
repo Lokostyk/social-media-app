@@ -1,13 +1,17 @@
 import firebase from 'firebase/app'
 import React, { useState } from 'react'
-import { useEffect } from 'react/cjs/react.development'
+import { useCallback, useEffect } from 'react/cjs/react.development'
 
 export default function InnerPost(props) {
     const item = props.item
-    const userId = firebase.auth().currentUser?firebase.auth().currentUser.uid:false
+    const userId = props.loggedIn?firebase.auth().currentUser.uid:false
+    const [allComments,setAllComments] = useState(item.postComments)
     const [heartCounter,setHeartCounter] = useState(item.postHearts)
+    const [showComments,setShowComments] = useState(false)
+    const [commentHandler,setCommentHandler] = useState("Write comment here")
+    const [handleTextarea,setHandleTextarea] = useState("")
 
-    function heartHandler() {
+    const heartHandler =  useCallback(()=>{
         if(!userId) return
         if(item.postHearts.indexOf(userId) === -1 && heartCounter.indexOf(userId) === -1){
             firebase.firestore().collection("posts").doc(item.postId).update({
@@ -22,8 +26,35 @@ export default function InnerPost(props) {
                 setHeartCounter(heartCounter.filter(id => id !== userId))
             })
         }
+    },[])
+    const addComment = useCallback((e,postId)=>{
+        e.preventDefault()
+        if(handleTextarea !== " "){
+            const commentData = {userId,content:commentHandler}
+            firebase.firestore().collection("posts").doc(postId).update({
+                postComments:  firebase.firestore.FieldValue.arrayUnion(commentData)
+            }).then(()=>{
+                setAllComments([...allComments,commentData])
+                setCommentHandler("")
+            })
+        }
+    },[commentHandler])
+    function textareaFirstClick(node) { 
+        if(commentHandler === "Write comment here"){
+            setCommentHandler("")
+            node.style.color = "black"
+        }
     }
-
+    function handleComment(node) {
+        node.style.height = "1.6rem"
+        setCommentHandler(node.value)
+        if(node.scrollHeight > 25){
+            node.style.height = node.scrollHeight + 'px'
+            setHandleTextarea("expandTextarea")
+        }else {
+            setHandleTextarea("")
+        }
+    }
     function expandPostSettings(e) {
         const list = e.target.parentElement.nextElementSibling
         list.classList.toggle("expandSettings")
@@ -38,6 +69,7 @@ export default function InnerPost(props) {
         }
     }
     return (
+        <>
         <div className="postBox">
             <p className="topUserInfo">{item.userName + " "}{item.userSurname}</p>
             <p className="postTextContent" style={item.photoUrl?{textAlign: "center"}:{}}>{item.content}</p>
@@ -47,7 +79,7 @@ export default function InnerPost(props) {
                     <button onClick={heartHandler}><img className={`heart ${heartCounter.indexOf(userId) === -1?"":"active"}`} src="pictures/heart.svg"/></button>
                     <div style={{textAlign:"center",color:"#00a889"}}>{heartCounter.length}</div>
                 </div>
-                <button className="commentsBox"><p>Comments <span>(2)</span></p></button>
+                <button onClick={()=>setShowComments(!showComments)} className="comments"><p>Comments <span>({item.postComments.length})</span></p></button>
             </div>
             <div onClick={(e)=>e.stopPropagation()} className={`${props.loggedIn && (firebase.auth().currentUser.uid === item.userId)? "showPostSettings" : ""} settings`}>
                 <button onClick={(e)=>expandPostSettings(e)}>
@@ -58,6 +90,22 @@ export default function InnerPost(props) {
                     <li><button onClick={()=> props.deletePost(item.postId,item.photoUrl,item.date)}>Delete</button></li>
                 </ul>
             </div>
-    </div>
+        </div>
+        <div className={`commentsBox ${showComments?"expandPost":""}`}>
+            {userId?
+            <form className={`${handleTextarea}`} onSubmit={(e)=>addComment(e,item.postId)}>
+                <textarea onClick={(e)=>textareaFirstClick(e.target)} value={commentHandler} onChange={(e)=>handleComment(e.target)} required/>
+                <input type="submit" value="add"/>
+            </form>:
+                <p className="noUserLogged" style={{textAlign:"center"}}>Sign in to add comments!</p>
+            }
+            {allComments.map(comment=>{
+                return (
+                    <p>{comment.content}</p>
+                )
+            })}
+
+        </div>
+        </>
     )
 }

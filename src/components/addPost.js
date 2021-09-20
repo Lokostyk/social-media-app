@@ -75,6 +75,6 @@ export default function AddPost(props) {
                 </div>
         )
     }else {
-        return <div className="postAdd noUserLogged"><span>Post adding is avialable for logged users!</span></div>
+        return <div className="postAdd noUserLogged"><span>Sign in to add posts.</span></div>
     }
 }

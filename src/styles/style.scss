@@ -518,6 +518,7 @@ main {
 //Posts
 .post {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
@@ -582,7 +583,7 @@ main {
       .active {
         opacity: 1 !important;
       }
-      .commentsBox {
+      .comments {
         font-size: 1.2rem;
         color: $deepblue;
         p {
@@ -649,6 +650,72 @@ main {
   }
   .expandSettings {
     max-height: 300px !important;
+  }
+  .commentsBox {
+    display: none;
+    width: 60%;
+    border: 2px solid #00a889;
+    border-top: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    overflow: hidden;
+    visibility: hidden;
+    transition: 0.5s all;
+    form {
+      display: flex;
+      justify-content: center;
+      width: 90%;
+      margin: 0 auto;
+      textarea {
+        padding: 0.1rem;
+        padding-inline-start: 0.2rem;
+        width: 80%;
+        height: 1.6rem;
+        overflow: hidden;
+        resize: none;
+        color: rgba(0, 0, 0, 0.5);
+        border: 1px solid $deepblue;
+        border-right: none;
+        border-radius: 10px 0 0 10px;
+        background-color: rgba(0, 168, 137, 0.2);
+        font-size: 1.08rem;
+        outline: none;
+        &:focus {
+          color: black;
+        }
+      }
+      input[type="submit"] {
+        padding: 0.2rem;
+        width: 20%;
+        border: 1px solid $deepblue;
+        border-radius: 0 10px 10px 0;
+        letter-spacing: 1px;
+        color: $deepblue;
+        background-color: rgba(0, 168, 137, 0.4);
+        text-transform: uppercase;
+        transition: 0.3s all;
+      }
+    }
+    .expandTextarea {
+      flex-direction: column;
+      align-items: center;
+      textarea {
+        border: 1px solid #00a889;
+        border-radius: 8px;
+      }
+      input[type="submit"] {
+        margin-top: 0.2rem;
+        width: 30%;
+        border: 1px solid #00a889;
+        border-radius: 8px;
+      }
+    }
+  }
+  .expandPost {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0;
+    visibility: visible;
   }
 }
 //Loading circle
