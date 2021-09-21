@@ -653,6 +653,7 @@ main {
   }
   .commentsBox {
     display: none;
+    align-items: center;
     width: 60%;
     border: 2px solid #00a889;
     border-top: none;
@@ -710,11 +711,57 @@ main {
         border-radius: 8px;
       }
     }
+    .postLineBreak {
+      margin: 0.65rem 0 0.15rem 0;
+      width: 80%;
+      height: 8px;
+      background-color: rgba(165, 164, 164, 0.1);
+      box-shadow: inset 0 0 2px 2px rgba(0, 168, 137, 0.4);
+      border: none;
+      border-radius: 8px;
+    }
+    .comment {
+      display: inline-flex;
+      position: relative;
+      margin: 0.5rem 0;
+      width: 85%;
+      border: 1px solid $deepblue;
+      border-radius: 8px;
+      legend {
+        display: flex;
+        align-items: center;
+        margin-left: 0.5rem;
+        padding: 0 0.25rem;
+        img {
+          width: 40px;
+          height: 40px;
+          border: 1px solid $deepblue;
+          border-radius: 50%;
+        }
+        span {
+          margin-left: 0.15rem;
+          font-size: 1.05rem;
+          color: $deepblue;
+        }
+        button {
+          position: absolute;
+          right: 10px;
+          border: none;
+          background-color: #f5f5f5;
+        }
+      }
+      p {
+        padding: 0.25rem 0.6rem;
+        width: 100%;
+        color: $deepblue;
+        font-size: 1.1rem;
+      }
+    }
   }
   .expandPost {
     display: flex;
     flex-direction: column;
-    padding: 0.5rem 0;
+    padding: 0.65rem 0;
     visibility: visible;
   }
 }

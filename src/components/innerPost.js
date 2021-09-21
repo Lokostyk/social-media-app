@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react/cjs/react.development'
 export default function InnerPost(props) {
     const item = props.item
     const userId = props.loggedIn?firebase.auth().currentUser.uid:false
-    const [allComments,setAllComments] = useState(item.postComments)
+    const [allComments,setAllComments] = useState([...item.postComments].reverse())
     const [heartCounter,setHeartCounter] = useState(item.postHearts)
     const [showComments,setShowComments] = useState(false)
     const [commentHandler,setCommentHandler] = useState("Write comment here")
@@ -34,7 +34,7 @@ export default function InnerPost(props) {
             firebase.firestore().collection("posts").doc(postId).update({
                 postComments:  firebase.firestore.FieldValue.arrayUnion(commentData)
             }).then(()=>{
-                setAllComments([...allComments,commentData])
+                setAllComments([commentData,...allComments])
                 setCommentHandler("")
             })
         }
@@ -79,7 +79,7 @@ export default function InnerPost(props) {
                     <button onClick={heartHandler}><img className={`heart ${heartCounter.indexOf(userId) === -1?"":"active"}`} src="pictures/heart.svg"/></button>
                     <div style={{textAlign:"center",color:"#00a889"}}>{heartCounter.length}</div>
                 </div>
-                <button onClick={()=>setShowComments(!showComments)} className="comments"><p>Comments <span>({item.postComments.length})</span></p></button>
+                <button onClick={()=>setShowComments(!showComments)} className="comments"><p>Comments <span>({allComments.length})</span></p></button>
             </div>
             <div onClick={(e)=>e.stopPropagation()} className={`${props.loggedIn && (firebase.auth().currentUser.uid === item.userId)? "showPostSettings" : ""} settings`}>
                 <button onClick={(e)=>expandPostSettings(e)}>
@@ -99,9 +99,17 @@ export default function InnerPost(props) {
             </form>:
                 <p className="noUserLogged" style={{textAlign:"center"}}>Sign in to add comments!</p>
             }
+            <hr className="postLineBreak"/>
             {allComments.map(comment=>{
                 return (
-                    <p>{comment.content}</p>
+                    <fieldset className="comment">
+                        <legend>
+                            <img src="pictures/no_profile_picture.png" />
+                            <span>Marcin Ziemba</span>
+                            <button>X</button>
+                        </legend>
+                        <p>{comment.content}</p>
+                    </fieldset>
                 )
             })}
 
