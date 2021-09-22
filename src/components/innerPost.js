@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import React, { useState } from 'react'
 import { useCallback, useEffect } from 'react/cjs/react.development'
+import InnerComment from './innerComment'
 
 export default function InnerPost(props) {
     const item = props.item
@@ -10,10 +11,10 @@ export default function InnerPost(props) {
     const [showComments,setShowComments] = useState(false)
     const [commentHandler,setCommentHandler] = useState("Write comment here")
     const [handleTextarea,setHandleTextarea] = useState("")
-
+    
     const heartHandler =  useCallback(()=>{
         if(!userId) return
-        if(item.postHearts.indexOf(userId) === -1 && heartCounter.indexOf(userId) === -1){
+        if(heartCounter.indexOf(userId) === -1){
             firebase.firestore().collection("posts").doc(item.postId).update({
                 postHearts:  firebase.firestore.FieldValue.arrayUnion(`${userId}`)
             }).then(()=>{
@@ -26,16 +27,18 @@ export default function InnerPost(props) {
                 setHeartCounter(heartCounter.filter(id => id !== userId))
             })
         }
-    },[])
+    },[heartCounter,props.loggedIn])
     const addComment = useCallback((e,postId)=>{
         e.preventDefault()
-        if(handleTextarea !== " "){
-            const commentData = {userId,content:commentHandler}
+        if(commentHandler !== " " && commentHandler !== ""){
+            const commentData = {userId,content:commentHandler,timestamp:new Date().getTime()}
             firebase.firestore().collection("posts").doc(postId).update({
                 postComments:  firebase.firestore.FieldValue.arrayUnion(commentData)
             }).then(()=>{
                 setAllComments([commentData,...allComments])
                 setCommentHandler("")
+                setHandleTextarea("")
+                e.target.firstChild.style.height = "1.6rem"
             })
         }
     },[commentHandler])
@@ -100,19 +103,11 @@ export default function InnerPost(props) {
                 <p className="noUserLogged" style={{textAlign:"center"}}>Sign in to add comments!</p>
             }
             <hr className="postLineBreak"/>
-            {allComments.map(comment=>{
-                return (
-                    <fieldset className="comment">
-                        <legend>
-                            <img src="pictures/no_profile_picture.png" />
-                            <span>Marcin Ziemba</span>
-                            <button>X</button>
-                        </legend>
-                        <p>{comment.content}</p>
-                    </fieldset>
-                )
-            })}
-
+            {showComments?
+                allComments.map(comment=>{
+                    return <InnerComment key={comment.timestamp} comment={comment} post={item} allComments={allComments} loggedIn={props.loggedIn}/>
+                }):""
+            }
         </div>
         </>
     )

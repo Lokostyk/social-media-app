@@ -721,7 +721,7 @@ main {
       border-radius: 8px;
     }
     .comment {
-      display: inline-flex;
+      display: flex;
       position: relative;
       margin: 0.5rem 0;
       width: 85%;
@@ -732,7 +732,7 @@ main {
         align-items: center;
         margin-left: 0.5rem;
         padding: 0 0.25rem;
-        img {
+        .commentProfilePicture {
           width: 40px;
           height: 40px;
           border: 1px solid $deepblue;
@@ -755,6 +755,10 @@ main {
         width: 100%;
         color: $deepblue;
         font-size: 1.1rem;
+      }
+      .commentDeleteBtn {
+        margin-top: 2px;
+        height: 17px;
       }
     }
   }

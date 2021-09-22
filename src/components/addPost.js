@@ -25,7 +25,9 @@ export default function AddPost(props) {
                         date: timestamp,
                         content: postContent,
                         photoUrl: url,
-                        userId: userId
+                        userId: userId,
+                        postComments: [],
+                        postHearts: []
                     }).then(()=>{
                         setView("")
                         setPostContent("")
@@ -39,12 +41,14 @@ export default function AddPost(props) {
                     date: timestamp,
                     content: postContent,
                     photoUrl: "",
-                    userId
+                    userId,
+                    postComments: [],
+                    postHearts: []
             })
             .then(()=>{
                 setView("")
                 setPostContent("")
-                        setAlert({"style": "topAlert","txt":"Post added!","functions":"delete"})
+                setAlert({"style": "topAlert","txt":"Post added!","functions":"delete"})
         })}
     }
     window.addEventListener("click",()=>{

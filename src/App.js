@@ -13,6 +13,8 @@ import OtherUserProfile from "./components/otherUserProfile"
 import AddPost from "./components/addPost";
 
 function App() {
+  const [display,setDisplay] = useState("")
+  const [alert,setAlert] = useState({"style":"noDisplay","txt":"","functions":""})
   //Checking if user is logged in
   const [loggedIn,setLoggedIn] = useState(false)
   //Reloading user data
@@ -52,8 +54,6 @@ function App() {
       }) 
     })
   }
-  const [display,setDisplay] = useState("")
-  const [alert,setAlert] = useState({"style":"noDisplay","txt":"","functions":""})
     return (
       <AlertContext.Provider value={setAlert}>
     <main>
@@ -66,7 +66,7 @@ function App() {
       {display === "Register"? <RegisterForm display={display} register={setDisplay} />: ""}
       {(display === "ProfileSettings" && loggedIn)?<ProfileSettings display={display} userData={userData} loggedIn={setLoggedIn}/>: ""}
       {display.length > 20?<OtherUserProfile userId={display} />: ""}
-      {display === ""?
+      {(display === "" || display === "Login")?
           (<div id="defaultMiddleContent">
             <TopBar loggedIn={loggedIn} display={setDisplay}/>
             <AddPost loggedIn={loggedIn}/>

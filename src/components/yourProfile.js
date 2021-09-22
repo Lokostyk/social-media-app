@@ -13,6 +13,7 @@ export default function YourProfile(props) {
         .then(()=>{
             props.loggedIn(false)
             props.signOut("")
+            window.location.reload()
         })
         .catch((error)=>{
             console.log(error)
