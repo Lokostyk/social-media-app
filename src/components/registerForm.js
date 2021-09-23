@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useCallback} from 'react'
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/storage'
@@ -12,7 +12,7 @@ export default function RegisterInput(props) {
     const [password2,setPassword2] = useState("")
     const setAlert = React.useContext(AlertContext)
 
-    function register(){
+    const register = useCallback(()=>{
         if(password === password2){
             //Checking if name and surname contains only up to 15 letters
             if(/^[A-z]+$/i.test(name) && /^[A-z]+$/i.test(surname) 
@@ -46,7 +46,7 @@ export default function RegisterInput(props) {
         }else{
             setAlert({"style": "topAlert","txt":"Passwords must be the same!","functions":"delete"})
         }
-    }
+    },[name,surname,email,password,password2])
     return (
         <div className="wrapper">
             <form className="wrapper--form" onSubmit={(e)=> e.preventDefault()}>

@@ -1,4 +1,5 @@
 import firebase from 'firebase/app'
+import { useCallback } from 'react'
 
 export default function YourProfile(props) {
     function userPicture(){
@@ -8,7 +9,7 @@ export default function YourProfile(props) {
             return <img className="userImg" src={props.userData.userProfilePicture} />
         }
     }
-    function signOut(){
+    const signOut = useCallback(()=>{
         firebase.auth().signOut()
         .then(()=>{
             props.loggedIn(false)
@@ -18,7 +19,7 @@ export default function YourProfile(props) {
         .catch((error)=>{
             console.log(error)
         })
-    }
+    },[props.loggedIn])
     return (
         <>{props.userData[0] !== ""?
             <div className="userWrapper">

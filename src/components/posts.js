@@ -54,14 +54,14 @@ export default function Posts(props) {
     function editPost(date) {
         console.log(date)
     }
-    function deletePost(id,hadPhoto,date) {
+    const deletePost = useCallback((id,hadPhoto,date)=> {
         if(hadPhoto !== ""){
             firebase.storage().ref("posts/" + date).delete()
         }
         firebase.firestore().collection("posts").doc(id).delete().then(()=>{
                 setPosts(posts.filter((item)=>{return item.postId !== id}))
         })
-    }
+    },[posts])
     return (
         <>
             {posts.map((item,index) => 

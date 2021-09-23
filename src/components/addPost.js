@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext,useCallback } from 'react'
 import firebase from "firebase/app"
 import "firebase/storage"
 import { AlertContext } from '../Contexts/alert'
@@ -15,7 +15,7 @@ export default function AddPost(props) {
         setView("fullView")
         postContent === "Create your post here" ? setPostContent("") : console.log()
     }
-    function addPost() {
+    const addPost = useCallback(()=>{
         const userId = firebase.auth().currentUser.uid
         const timestamp = new Date().getTime()
         if(photo){
@@ -50,12 +50,12 @@ export default function AddPost(props) {
                 setPostContent("")
                 setAlert({"style": "topAlert","txt":"Post added!","functions":"delete"})
         })}
-    }
+    })
     window.addEventListener("click",()=>{
         if(view !== ""){
             setView("")
         }
-    })
+    },[])
     if(props.loggedIn){
         return (
                 <div className={`postAdd ${view}`}>

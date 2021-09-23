@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useCallback } from 'react'
 import firebase from 'firebase'
 import app,{ auth } from "./firebase"
 
@@ -6,7 +6,7 @@ export default function LoginForm(props) {
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
 
-    function login(){
+    const login = useCallback(()=>{
         firebase.auth().signInWithEmailAndPassword(email, password)
         .then(()=>{
             if(firebase.auth().currentUser){
@@ -17,7 +17,7 @@ export default function LoginForm(props) {
         .catch((error)=>{
             console.log(error)
         })
-    }
+    })
     return (
         <form className="loginForm" onSubmit={(e)=> e.preventDefault()}>
                 <label>E-mail</label>

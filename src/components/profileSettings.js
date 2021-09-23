@@ -1,4 +1,4 @@
-import React,{useState , useContext} from 'react'
+import React,{useState , useContext, useCallback} from 'react'
 import firebase from 'firebase/app'
 import { AlertContext } from '../Contexts/alert'
 import "firebase/storage";
@@ -12,13 +12,14 @@ export default function ProfileSettings(props) {
     const [userName,setUserName] = useState(props.userData.userName)
     const [userSurname,setUserSurname] = useState(props.userData.userSurname)
     const [userDescription,setUserDescription] = useState(props.userData.userDescription)
+    const [userImg,setUserImg] = useState(props.userData.userProfilePicture)
     //Password and Email
     const [userEmail,setUserEmail] = useState(user.email)
     const [changePassword,setChangePassword] = useState(false)
     const [userPassword,setUserPassword] = useState("")
     const [newUserPassword,setNewUserPassword] = useState("")
     
-    function submit(){
+    const submit = useCallback(()=>{
         if(/^[A-z]+$/i.test(userName) && /^[A-z]+$/i.test(userSurname) 
         && userSurname.length <= 15 && userName.length <= 15){
             firebase.database().ref("users/" + user.uid).set({
@@ -50,19 +51,18 @@ export default function ProfileSettings(props) {
         }else {
             setAlert({"style": "topAlert","txt":"Name and Surname can contain up to 15 letters!","functions":"delete"})
         }
-    }
+    },[userName,userSurname,userEmail,userDescription,changePassword,userPassword,newUserPassword])
     function deleteAccount(){
         user.delete().then(()=>{
             setAlert({"style": "topAlert","txt":"Account no longer exist.","functions":"delete"})
             props.loggedIn(false)
         })
     }
-    const [userImg,setUserImg] = useState(props.userData.userProfilePicture)
-    function handleImageChange(e) {
+    const handleImageChange = useCallback((e)=> {
         const userId = firebase.auth().currentUser.uid
         firebase.storage().ref("users").child(userId).put(e.target.files[0])
         setUserImg(URL.createObjectURL(e.target.files[0]))
-    }
+    },[userImg])
     return (
         <div className="profileSet">
             <form className="formSet" onSubmit={(e)=> e.preventDefault()}>
