@@ -24,7 +24,7 @@ function App() {
   
   //Getting user data from database
   const [userData,setUserData] = useState([""])
-
+  
   if(loggedIn === true && userData[0] === ""){
     const user = firebase.auth().currentUser
     let uData = []
@@ -64,7 +64,7 @@ function App() {
       </div>
       {/* ******** Middle content ******** */}
       {display === "Register"? <RegisterForm display={display} register={setDisplay} />: ""}
-      {(display === "ProfileSettings" && loggedIn)?<ProfileSettings display={display} userData={userData} loggedIn={setLoggedIn}/>: ""}
+      {(display === "ProfileSettings" && loggedIn)?<ProfileSettings display={display} userData={userData} loggedIn={setLoggedIn} setUserData={setUserData}/>: ""}
       {display.length > 20?<OtherUserProfile userId={display} />: ""}
       {(display === "" || display === "Login")?
           (<div id="defaultMiddleContent">

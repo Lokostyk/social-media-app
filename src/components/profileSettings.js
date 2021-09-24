@@ -27,7 +27,7 @@ export default function ProfileSettings(props) {
                 userSurname,
                 userEmail,
                 userDescription
-            })
+            }).then(()=>props.setUserData({userName,userSurname,userDescription,userProfilePicture:props.userData.userProfilePicture}))
             //Changing email
             if(user.email !== userEmail){
                 user.updateEmail(userEmail).catch(()=> setAlert({"style": "topAlert","txt":"Something went wrong!! Please, refresh page.","functions":"delete"}))
@@ -51,7 +51,7 @@ export default function ProfileSettings(props) {
         }else {
             setAlert({"style": "topAlert","txt":"Name and Surname can contain up to 15 letters!","functions":"delete"})
         }
-    },[userName,userSurname,userEmail,userDescription,changePassword,userPassword,newUserPassword])
+    },[userName,userSurname,userEmail,userDescription,changePassword,userPassword,newUserPassword,props.userData])
     function deleteAccount(){
         user.delete().then(()=>{
             setAlert({"style": "topAlert","txt":"Account no longer exist.","functions":"delete"})
