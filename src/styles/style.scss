@@ -189,7 +189,7 @@ main {
     font-size: 1.2rem;
   }
 }
-//Defining style of Your profile
+//Defining style of Your profile section
 .profileSet {
   display: flex;
   flex-direction: column;
@@ -770,6 +770,39 @@ main {
     flex-direction: column;
     padding: 0.65rem 0;
     visibility: visible;
+  }
+}
+.chatBox {
+  display: flex;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+.friendBtn {
+  margin: 1rem;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}
+.green {
+  padding: 0.3rem;
+  color: $deepblue;
+  background-color: #5cdb5c;
+  border: 1px solid #43bb43;
+  img {
+    width: 20px;
+    margin-left: 0.15rem;
+  }
+}
+.red {
+  padding: 0.3rem;
+  color: $deepblue;
+  background-color: rgba(255, 0, 33, 0.7);
+  border: 1px solid #ff0021;
+  img {
+    width: 15px;
+    margin-left: 0.2rem;
+    padding: 0.1rem 0;
   }
 }
 // ----- LOADING ANIMATIONS ----- //

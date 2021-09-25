@@ -11,6 +11,7 @@ import TopBar from "./components/topBar";
 import Posts from "./components/posts";
 import OtherUserProfile from "./components/otherUserProfile"
 import AddPost from "./components/addPost";
+import ChatList from "./components/chatList";
 
 function App() {
   const [display,setDisplay] = useState("")
@@ -73,7 +74,7 @@ function App() {
             <Posts loggedIn={loggedIn}/>
           </div>):""}
 
-      <div style={{position: "fixed",bottom: 0,right: 0}} >chatBoxes</div>
+        <ChatList />
     </main>
     </AlertContext.Provider>
   );
