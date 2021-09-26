@@ -51,7 +51,6 @@ export default function OtherUserProfile(props) {
     const removeFriend = useCallback(()=>{
         const path = firebase.database().ref("users").child(currentUserId)
         path.child("userFriends").get().then(snap=>{
-            console.log(snap.val())
             if(snap.val()===null)return
             path.update({
                 userFriends: snap.val().filter(item=>item!==props.userId)

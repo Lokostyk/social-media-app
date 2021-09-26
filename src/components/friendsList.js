@@ -6,6 +6,7 @@ export default function FriendsList(props) {
     useEffect(()=>{
         const dataList = new Array()
         firebase.database().ref("users").child(firebase.auth().currentUser.uid).child("userFriends").get().then((snap)=>{
+            if(snap.val() === null) return
             snap.val().map((personId,index)=>{
                 firebase.database().ref("users").child(personId).get().then(p=>{
                     firebase.storage().ref("users").child(personId).getMetadata().then((img)=>{
@@ -30,9 +31,16 @@ export default function FriendsList(props) {
     function openUserProfile(id) {
         props.setDisplay(id)
     }
-    function deleteFriend(params) {
-        
-    }
+    const deleteFriend = useCallback((e,id)=>{
+        e.stopPropagation()
+        const path = firebase.database().ref("users").child(firebase.auth().currentUser.uid)
+        path.child("userFriends").get().then(snap=>{
+            if(snap.val()===null)return
+            path.update({
+                userFriends: snap.val().filter(item=>item!==id)
+            })
+        }).then(()=>setFriendsData(friendsData.filter(item=>item.userId!==id)))
+    },[friendsData])
     return (
         <div className="profileSet">
             <p style={{fontSize:"1.1rem",marginBottom:".1rem"}}>Click on tile to open profile</p>
@@ -42,7 +50,7 @@ export default function FriendsList(props) {
                     <hr style={{border:"1px solid #f5f5f5"}}/>
                     <button onClick={()=>openUserProfile(person.userId)} className="userProfileOnList">
                         <span>{person.userName} {person.userSurname}</span>
-                        <button onClick={(e)=>{e.stopPropagation();console.log("YOOOOOOOOO")}}><img src="pictures/delete.svg"/></button>
+                        <button onClick={(e)=>deleteFriend(e,person.userId)}><img src="pictures/delete.svg"/></button>
                     </button>
                     <hr style={{border:"1px solid #f5f5f5"}}/>
                     </>)

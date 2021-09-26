@@ -76,7 +76,7 @@ function App() {
             <Posts loggedIn={loggedIn}/>
           </div>):""}
 
-        <ChatList />
+        {loggedIn?<ChatList />:""}
     </main>
     </AlertContext.Provider>
   );
