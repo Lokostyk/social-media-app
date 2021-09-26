@@ -805,6 +805,30 @@ main {
     padding: 0.1rem 0;
   }
 }
+.userProfileOnList {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  padding: 0.3rem;
+  width: 85%;
+  color: white;
+  border: none;
+  background-color: $deepblue;
+  font-size: 1.5rem;
+  transition: 0.3s all;
+  button {
+    display: flex;
+    align-content: center;
+    align-self: center;
+    background-color: inherit;
+    border: none;
+  }
+  &:hover {
+    background-color: inherit;
+    color: $deepblue;
+    border: 1px solid $deepblue;
+  }
+}
 // ----- LOADING ANIMATIONS ----- //
 // Circle
 .loader {

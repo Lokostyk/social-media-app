@@ -8,9 +8,10 @@ import LoginOrRegister from "./components/loginOrRegister";
 import RegisterForm from "./components/registerForm"
 import ProfileSettings from "./components/profileSettings";
 import TopBar from "./components/topBar";
+import AddPost from "./components/addPost";
 import Posts from "./components/posts";
 import OtherUserProfile from "./components/otherUserProfile"
-import AddPost from "./components/addPost";
+import FriendsList from "./components/friendsList";
 import ChatList from "./components/chatList";
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
       {/* ******** Middle content ******** */}
       {display === "Register"? <RegisterForm display={display} register={setDisplay} />: ""}
       {(display === "ProfileSettings" && loggedIn)?<ProfileSettings display={display} userData={userData} loggedIn={setLoggedIn} setUserData={setUserData}/>: ""}
+      {display==="FriendList"?<FriendsList setDisplay={setDisplay}/>:""}
       {display.length > 20?<OtherUserProfile userId={display} />: ""}
       {(display === "" || display === "Login")?
           (<div id="defaultMiddleContent">

@@ -1,0 +1,53 @@
+import React,{useEffect,useState,useCallback} from 'react'
+import firebase from 'firebase/app'
+
+export default function FriendsList(props) {
+    const [friendsData,setFriendsData] = useState([])
+    useEffect(()=>{
+        const dataList = new Array()
+        firebase.database().ref("users").child(firebase.auth().currentUser.uid).child("userFriends").get().then((snap)=>{
+            snap.val().map((personId,index)=>{
+                firebase.database().ref("users").child(personId).get().then(p=>{
+                    firebase.storage().ref("users").child(personId).getMetadata().then((img)=>{
+                        if(img.contentType === "txt"){
+                            dataList.push(Object.assign(p.val(),{userProfilePicture:"pictures/no_profile_picture.png",userId:snap.val()[index]}))
+                            if(dataList.length === snap.val().length){
+                                setFriendsData(dataList.sort((a,b)=>a.userName.localeCompare(b.userName)))
+                            }
+                        }else{
+                            firebase.storage().ref("users").child(personId).getDownloadURL().then(url=>{
+                                dataList.push(Object.assign(p.val(),{userProfilePicture:url,userId:snap.val()[index]}))
+                                if(dataList.length === snap.val().length){
+                                    setFriendsData(dataList.sort((a,b)=>a.userName.localeCompare(b.userName)))
+                                }
+                            })
+                        }
+                    })
+                })
+            })
+        })
+    },[])
+    function openUserProfile(id) {
+        props.setDisplay(id)
+    }
+    function deleteFriend(params) {
+        
+    }
+    return (
+        <div className="profileSet">
+            <p style={{fontSize:"1.1rem",marginBottom:".1rem"}}>Click on tile to open profile</p>
+            <div className="formSet" style={{padding:".5rem 0"}}>
+                {friendsData.map(person=>{
+                    return (<>
+                    <hr style={{border:"1px solid #f5f5f5"}}/>
+                    <button onClick={()=>openUserProfile(person.userId)} className="userProfileOnList">
+                        <span>{person.userName} {person.userSurname}</span>
+                        <button onClick={(e)=>{e.stopPropagation();console.log("YOOOOOOOOO")}}><img src="pictures/delete.svg"/></button>
+                    </button>
+                    <hr style={{border:"1px solid #f5f5f5"}}/>
+                    </>)
+                })}
+            </div>
+        </div>
+    )
+}
