@@ -799,6 +799,66 @@ main {
     padding: 0.1rem 0;
   }
 }
+.chatBox {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 0;
+  height: 10rem;
+  width: 15rem;
+  height: 18rem;
+  right: 15.1rem;
+  background-color: $deepblue;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  .chatTitle {
+    padding: 0.2rem 0;
+    color: white;
+    text-align: center;
+    border-bottom: 1px solid rgb(82, 171, 152);
+  }
+  .newMessage {
+    margin: 0.2rem;
+    padding: 0.1rem;
+    border: none;
+    border-top: 1px solid rgb(82, 171, 152);
+    border-radius: 8px;
+    padding-inline-start: 0.1rem;
+    font-size: 1rem;
+  }
+}
+.messageBox {
+  overflow: auto;
+  overflow-x: hidden;
+  height: 100%;
+  .message {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    p {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 0.5rem;
+      padding-bottom: 0.2rem;
+      margin: 0.2rem 0.4rem;
+      font-size: 1.1rem;
+      max-width: 80%;
+      background-color: #f5f5f5;
+      border-radius: 10px;
+      color: $deepblue;
+      word-break: break-all;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      right: 1px;
+      bottom: 0;
+      height: 0px;
+      border: 3px solid white;
+      border-radius: 50%;
+    }
+  }
+}
 .chatBoxList {
   display: flex;
   flex-direction: column;
@@ -807,6 +867,7 @@ main {
   right: 0;
   bottom: 0;
   width: 15rem;
+  float: right;
   border-left: 1px solid $deepblue;
   border-top: 1px solid $deepblue;
   background-color: $deepblue;

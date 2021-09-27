@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react/cjs/react.development'
 import firebase from "firebase/app"
+import ChatBox from './chatBox'
 
 export default function ChatList() {
     const [displayFriendList,setDisplayFriendList] = useState(false)
@@ -33,17 +34,20 @@ export default function ChatList() {
     },[])
 
     return (
-        <div className="chatBoxList">
-            <button className="friendsBtn" onClick={()=>setDisplayFriendList(!displayFriendList)}>Friends <span>({friendsData.length})</span></button>
-            <div className={displayFriendList?"chatList":"notDisplayChat"}>
-                {friendsData.map(person=>{
-                    return (
-                        <button className="chatTile">{person.userName}</button>
-                    )
-                })
+        <>
+            <ChatBox />
+            <div className="chatBoxList">
+                <button className="friendsBtn" onClick={()=>setDisplayFriendList(!displayFriendList)}>Friends <span>({friendsData.length})</span></button>
+                <div className={displayFriendList?"chatList":"notDisplayChat"}>
+                    {friendsData.map(person=>{
+                        return (
+                            <button className="chatTile">{person.userName}</button>
+                        )
+                    })
 
-                }
+                    }
+                </div>
             </div>
-        </div>
+        </>
     )
 }
