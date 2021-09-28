@@ -68,15 +68,14 @@ function App() {
       {display === "Register"? <RegisterForm display={display} register={setDisplay} />: ""}
       {(display === "ProfileSettings" && loggedIn)?<ProfileSettings display={display} userData={userData} loggedIn={setLoggedIn} setUserData={setUserData}/>: ""}
       {display==="FriendList"?<FriendsList setDisplay={setDisplay}/>:""}
-      {display.length > 20?<OtherUserProfile userId={display} />: ""}
+      {display.length > 20?<OtherUserProfile userId={display} loggedIn={loggedIn}/>: ""}
       {(display === "" || display === "Login")?
           (<div id="defaultMiddleContent">
             <TopBar loggedIn={loggedIn} display={setDisplay}/>
             <AddPost loggedIn={loggedIn}/>
             <Posts loggedIn={loggedIn}/>
           </div>):""}
-
-        {loggedIn?<ChatList />:""}
+      {loggedIn?<ChatList />:""}
     </main>
     </AlertContext.Provider>
   );

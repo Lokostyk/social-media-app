@@ -29,8 +29,8 @@ export default function InnerComment(props) {
     const deleteComment = useCallback(()=>{
         firebase.firestore().collection("posts").doc(props.post.postId).update({
             postComments: props.allComments.filter(post=>post.timestamp!==comment.timestamp)
-        })
-    },[])
+        }).then(()=>props.setAllComments(props.allComments.filter(post=>post.timestamp!==comment.timestamp)))
+    },[props.allComments])
     return (
         <fieldset className="comment">
             {!loading?

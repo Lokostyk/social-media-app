@@ -1,11 +1,12 @@
 import React from 'react'
-import { useState, useEffect } from 'react/cjs/react.development'
+import { useState, useEffect , useCallback } from 'react/cjs/react.development'
 import firebase from "firebase/app"
 import ChatBox from './chatBox'
 
 export default function ChatList() {
     const [displayFriendList,setDisplayFriendList] = useState(false)
     const [friendsData,setFriendsData] = useState([])
+    const [chatOppend,setChatOppend] = useState([])
 
     useEffect(()=>{
         const dataList = new Array()
@@ -32,19 +33,28 @@ export default function ChatList() {
             })
         })
     },[])
-
+    const displayFriendChat = useCallback((name,surname,id)=>{
+        if(chatOppend.length === 2){
+            if(chatOppend[0].id === id || chatOppend[1].id === id) return
+            setChatOppend([{name,surname,id},...chatOppend.slice(0,1)])
+        }else{
+            if(chatOppend.length === 1 && chatOppend[0].id === id) return
+            setChatOppend([{name,surname,id},...chatOppend])
+        }
+    },[chatOppend])
     return (
         <>
-            <ChatBox />
+            {chatOppend.map(person=>{
+                return <ChatBox haveTwo={chatOppend.length === 2} isSecond={(chatOppend.length === 2 && chatOppend[1].id === person.id)} name={person.name}/>
+            })}
             <div className="chatBoxList">
                 <button className="friendsBtn" onClick={()=>setDisplayFriendList(!displayFriendList)}>Friends <span>({friendsData.length})</span></button>
                 <div className={displayFriendList?"chatList":"notDisplayChat"}>
                     {friendsData.map(person=>{
                         return (
-                            <button className="chatTile">{person.userName}</button>
+                            <button onClick={()=>displayFriendChat(person.userName,person.userSurname,person.userId)} className="chatTile">{person.userName}</button>
                         )
                     })
-
                     }
                 </div>
             </div>

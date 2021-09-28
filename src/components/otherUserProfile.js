@@ -3,13 +3,13 @@ import firebase from 'firebase/app'
 import "firebase/storage"
 
 export default function OtherUserProfile(props) {
-    const currentUserId = firebase.auth().currentUser === null?"false":firebase.auth().currentUser.uid
+    const currentUserId = props.loggedIn?firebase.auth().currentUser.uid:false
     const [userData,setUserData] = useState({userName: "--",userSurname:"--",userDescription:""})
     const [newFriend,setNewFriend] = useState(true)
 
     useEffect(()=>{
+        if(!currentUserId) return
         let data = {}
-
         firebase.database().ref("users").child(props.userId).get().then((snapshot)=> {
             data = snapshot.val()
             
@@ -69,7 +69,7 @@ export default function OtherUserProfile(props) {
                     <img src={userData.userProfilePicture} />
                 </div>
                 <p style={{marginTop: .5 + "rem"}}>{userData.userDescription}</p>
-                {(currentUserId !== "false" && currentUserId !== props.userId)?
+                {(props.loggedIn && currentUserId !== props.userId)?
                     <>
                     {newFriend?
                         <button onClick={addFriend} className="friendBtn green">Add Friend<img src="pictures/add2.svg"/></button>

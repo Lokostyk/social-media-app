@@ -62,7 +62,8 @@ export default function ProfileSettings(props) {
         const userId = firebase.auth().currentUser.uid
         firebase.storage().ref("users").child(userId).put(e.target.files[0])
         setUserImg(URL.createObjectURL(e.target.files[0]))
-    },[userImg])
+        props.setUserData(Object.assign(props.userData,{userProfilePicture:URL.createObjectURL(e.target.files[0])}))
+    },[userImg,props.userData])
     return (
         <div className="profileSet">
             <form className="formSet" onSubmit={(e)=> e.preventDefault()}>

@@ -105,7 +105,7 @@ export default function InnerPost(props) {
             <hr className="postLineBreak"/>
             {showComments?
                 allComments.map(comment=>{
-                    return <InnerComment key={comment.timestamp} comment={comment} post={item} allComments={allComments} loggedIn={props.loggedIn}/>
+                    return <InnerComment key={comment.timestamp} comment={comment} post={item} allComments={allComments} loggedIn={props.loggedIn} setAllComments={setAllComments}/>
                 }):""
             }
         </div>
