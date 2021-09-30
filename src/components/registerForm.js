@@ -2,6 +2,7 @@ import React,{useState,useCallback} from 'react'
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/storage'
+import 'firebase/firestore'
 import { AlertContext } from '../Contexts/alert'
 
 export default function RegisterInput(props) {
@@ -21,6 +22,7 @@ export default function RegisterInput(props) {
                 .then(()=>{
                     const userId = firebase.auth().currentUser.uid
                     firebase.storage().ref("users").child(userId).put("",{contentType:"txt"})
+                    firebase.firestore().collection("chat").doc(firebase.auth().currentUser.uid).set({})
                     firebase.database().ref("users/" + userId).set({
                         userName: name,
                         userSurname: surname,

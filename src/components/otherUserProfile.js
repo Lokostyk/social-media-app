@@ -38,10 +38,12 @@ export default function OtherUserProfile(props) {
         const path = firebase.database().ref("users").child(currentUserId)
         path.child("userFriends").get().then(snap=>{
             if(snap.val()===null){
+                firebase.firestore().collection("chat").doc(currentUserId).set({[props.userId]:{}},{merge:true})
                 path.update({
                     userFriends: [props.userId]
                 })
             }else{
+                firebase.firestore().collection("chat").doc(currentUserId).set({[props.userId]:{}},{merge:true})
                 path.update({
                     userFriends: [...snap.val(),props.userId]
                 })
