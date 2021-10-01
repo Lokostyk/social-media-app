@@ -45,14 +45,14 @@ export default function ChatList() {
     return (
         <>
             {chatOppend.map(person=>{
-                return <ChatBox haveTwo={chatOppend.length === 2} isSecond={(chatOppend.length === 2 && chatOppend[1].id === person.id)} person={person}/>
+                return <ChatBox key={person.id} haveTwo={chatOppend.length === 2} isSecond={(chatOppend.length === 2 && chatOppend[1].id === person.id)} person={person}/>
             })}
             <div className="chatBoxList">
                 <button className="friendsBtn" onClick={()=>setDisplayFriendList(!displayFriendList)}>Friends <span>({friendsData.length})</span></button>
                 <div className={displayFriendList?"chatList":"notDisplayChat"}>
                     {friendsData.map(person=>{
                         return (
-                            <button onClick={()=>displayFriendChat(person.userName,person.userSurname,person.userId)} className="chatTile">{person.userName}</button>
+                            <button key={person.id} onClick={()=>displayFriendChat(person.userName,person.userSurname,person.userId)} className="chatTile">{person.userName}</button>
                         )
                     })
                     }

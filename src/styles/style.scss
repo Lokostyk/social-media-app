@@ -815,6 +815,9 @@ main {
     text-align: center;
     border-bottom: 1px solid rgb(82, 171, 152);
   }
+  .messageForm {
+    max-height: 0px;
+  }
   .newMessage {
     max-height: 0px;
     visibility: hidden;
@@ -854,6 +857,16 @@ main {
       height: 0px;
       border: 3px solid white;
       border-radius: 50%;
+    }
+  }
+  .left {
+    justify-content: flex-start;
+    p {
+      background-color: rgb(212, 206, 206);
+    }
+    &::before {
+      left: 0px;
+      right: inherit;
     }
   }
 }
@@ -912,10 +925,14 @@ main {
   .messageBox {
     height: 100%;
   }
+  .messageForm {
+    max-height: 100px;
+  }
   .newMessage {
     margin: 0.2rem;
     padding: 0.1rem;
     max-height: 350px;
+    width: 97.2%;
     visibility: visible;
   }
 }
