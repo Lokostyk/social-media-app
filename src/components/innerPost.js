@@ -1,17 +1,26 @@
 import firebase from 'firebase/app'
 import React, { useState } from 'react'
-import { useCallback, useEffect } from 'react/cjs/react.development'
+import { useCallback } from 'react/cjs/react.development'
 import InnerComment from './innerComment'
 
 export default function InnerPost(props) {
     const item = props.item
     const userId = props.loggedIn?firebase.auth().currentUser.uid:false
+    const [editPost,setEditPost] = useState(false)
     const [allComments,setAllComments] = useState([...item.postComments].reverse())
     const [heartCounter,setHeartCounter] = useState(item.postHearts)
     const [showComments,setShowComments] = useState(false)
     const [commentHandler,setCommentHandler] = useState("Write comment here")
     const [handleTextarea,setHandleTextarea] = useState("")
-    
+
+    const editPostText = useCallback((e)=>{
+        const postText = e.target.parentElement.previousElementSibling.textContent
+        if(postText === "") return
+        setEditPost(false)
+        firebase.firestore().collection("posts").doc(item.postId).update({
+            content: postText,
+        })
+    },[editPost])
     const heartHandler =  useCallback(()=>{
         if(!userId) return
         if(heartCounter.indexOf(userId) === -1){
@@ -75,7 +84,12 @@ export default function InnerPost(props) {
         <>
         <div className="postBox">
             <p className="topUserInfo">{item.userName + " "}{item.userSurname}</p>
-            <p className="postTextContent" style={item.photoUrl?{textAlign: "center"}:{}}>{item.content}</p>
+            <p className={`postTextContent ${editPost?"editPost":""}`} style={item.photoUrl?{textAlign: "center"}:{}} role={editPost?"textbox":""} contentEditable={editPost}>{item.content}</p>
+            {editPost?
+                <div style={{display:"flex",justifyContent:"center"}}>
+                    <button onClick={(e)=>editPostText(e)} className="rBtn" style={{margin: ".3rem 0"}}>Save</button>
+                </div>
+                :""}
             <img src={item.photoUrl} className={item.photoUrl ? "postImage":"noDisplay"} />
             <div className="heartsCommentsBox">
                 <div className="heartBox">
@@ -89,7 +103,7 @@ export default function InnerPost(props) {
                     <img src="pictures/gear_icon.png" />
                 </button>
                 <ul id="list">
-                    <li><button onClick={()=> props.editPost(item.date)}>Edit</button></li>
+                    <li><button onClick={()=> setEditPost(!editPost)}>Edit</button></li>
                     <li><button onClick={()=> props.deletePost(item.postId,item.photoUrl,item.date)}>Delete</button></li>
                 </ul>
             </div>

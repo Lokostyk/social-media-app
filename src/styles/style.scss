@@ -544,9 +544,15 @@ main {
       }
     }
     .postTextContent {
-      margin-top: 0.4rem;
-      padding-inline-start: 1rem;
+      margin: 0.3rem 1rem 0 1rem;
+      padding: 0.2rem;
+      border-radius: 8px;
       font-size: 1.25rem;
+      word-break: break-all;
+    }
+    .editPost {
+      margin-top: 0.5rem;
+      border: 2px solid $deepblue;
     }
     .postImage {
       display: flex;
@@ -617,15 +623,22 @@ main {
       transition: 1s all;
       li {
         width: 10rem;
-        padding: 0.2rem;
         color: white;
         background-color: $deepblue;
         border: 1px solid white;
         border-bottom: none;
+        transition: 0.1s all;
         z-index: 10;
         button {
           width: 100%;
+          padding: 0.25rem;
           color: inherit;
+          &:first-of-type {
+            border-top-left-radius: 8px;
+          }
+          &:last-of-type {
+            border-bottom-right-radius: 8px;
+          }
         }
         &:hover {
           cursor: pointer;

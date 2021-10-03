@@ -51,9 +51,6 @@ export default function Posts(props) {
         })
         if(node) observer.current.observe(node)
     },[hasMore,loading])
-    function editPost(date) {
-        console.log(date)
-    }
     const deletePost = useCallback((id,hadPhoto,date)=> {
         if(hadPhoto !== ""){
             firebase.storage().ref("posts/" + date).delete()
@@ -67,11 +64,11 @@ export default function Posts(props) {
             {posts.map((item,index) => 
                 {return (posts.length - 1 === index?
                     <div className="post" ref={lastBookRef} key={item.date}>
-                        <InnerPost item={item} loggedIn={props.loggedIn} deletePost={deletePost} editPost={editPost}/>
+                        <InnerPost item={item} loggedIn={props.loggedIn} deletePost={deletePost}/>
                     </div>
                     :
                     <div className="post" key={item.date}>
-                        <InnerPost item={item} loggedIn={props.loggedIn} deletePost={deletePost} editPost={editPost}/>
+                        <InnerPost item={item} loggedIn={props.loggedIn} deletePost={deletePost}/>
                     </div>
                 )})}
                 {loading?
