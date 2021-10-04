@@ -16,6 +16,7 @@ export default function AddPost(props) {
         postContent === "Create your post here" ? setPostContent("") : console.log()
     }
     const addPost = useCallback(()=>{
+        if(postContent === "") return
         const userId = firebase.auth().currentUser.uid
         const timestamp = new Date().getTime()
         if(photo){
@@ -50,7 +51,7 @@ export default function AddPost(props) {
                 setPostContent("")
                 setAlert({"style": "topAlert","txt":"Post added!","functions":"delete"})
         })}
-    })
+    },[postContent,photo])
     window.addEventListener("click",()=>{
         if(view !== ""){
             setView("")

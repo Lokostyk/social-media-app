@@ -11,7 +11,7 @@ import YourProfile from "./yourProfile"
     }else{
         return (
             <div className="btns">
-                <button className="logInBtns" onClick={()=> setDisplay("Login")}>Log in</button>
+                <button className="logInBtns" onClick={()=> setDisplay("Login")}>Login</button>
                 <button className="logInBtns" onClick={()=> props.register("Register")}>Register</button>
             </div>
         )

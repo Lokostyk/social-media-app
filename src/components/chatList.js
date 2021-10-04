@@ -52,7 +52,7 @@ export default function ChatList() {
                 <div className={displayFriendList?"chatList":"notDisplayChat"}>
                     {friendsData.map(person=>{
                         return (
-                            <button key={person.id} onClick={()=>displayFriendChat(person.userName,person.userSurname,person.userId)} className="chatTile">{person.userName}</button>
+                            <button key={person.id} onClick={()=>displayFriendChat(person.userName,person.userSurname,person.userId)} className="chatTile">{person.userName + " " + person.userSurname}<img className="smallProfilePicture" src={person.userProfilePicture}/></button>
                         )
                     })
                     }

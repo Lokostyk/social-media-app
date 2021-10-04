@@ -17,7 +17,7 @@ export default function RegisterInput(props) {
         if(password === password2){
             //Checking if name and surname contains only up to 15 letters
             if(/^[A-z]+$/i.test(name) && /^[A-z]+$/i.test(surname) 
-            && surname.length <= 15 && name.length <= 15){
+            && surname.length <= 12 && name.length <= 12){
                 firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(()=>{
                     const userId = firebase.auth().currentUser.uid
@@ -43,7 +43,7 @@ export default function RegisterInput(props) {
                     console.log(error)
                 })
             }else {
-                setAlert({"style": "topAlert","txt":"Name and Surname can contain up to 15 letters!","functions":"delete"})
+                setAlert({"style": "topAlert","txt":"Name and Surname can contain up to 12 letters!","functions":"delete"})
             }
         }else{
             setAlert({"style": "topAlert","txt":"Passwords must be the same!","functions":"delete"})

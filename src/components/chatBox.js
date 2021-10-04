@@ -29,7 +29,7 @@ export default function ChatBox(props) {
     },[currentMessage])
     return (
         <div className={`chatBox ${expandChat?"expandChat":""}`} style={props.haveTwo?(props.isSecond?{right:"15.1rem"}:{right:"30.4rem"}):{right:"15.2rem"}}>
-            <p onClick={()=>setExpandChat(!expandChat)} className="chatTitle">{person.name}</p>
+            <p onClick={()=>setExpandChat(!expandChat)} className="chatTitle">{person.name +" "+ person.surname}</p>
             <div className="messageBox">
                 {chatMessages.map((mess)=>{
                         return (

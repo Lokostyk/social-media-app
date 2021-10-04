@@ -21,7 +21,7 @@ export default function ProfileSettings(props) {
     
     const submit = useCallback(()=>{
         if(/^[A-z]+$/i.test(userName) && /^[A-z]+$/i.test(userSurname) 
-        && userSurname.length <= 15 && userName.length <= 15){
+        && userSurname.length <= 12 && userName.length <= 12){
             firebase.database().ref("users/" + user.uid).set({
                 userName,
                 userSurname,
@@ -49,7 +49,7 @@ export default function ProfileSettings(props) {
             props.loggedIn("refresh")
             setdisplayState(true)
         }else {
-            setAlert({"style": "topAlert","txt":"Name and Surname can contain up to 15 letters!","functions":"delete"})
+            setAlert({"style": "topAlert","txt":"Name and Surname can contain up to 12 letters!","functions":"delete"})
         }
     },[userName,userSurname,userEmail,userDescription,changePassword,userPassword,newUserPassword,props.userData])
     function deleteAccount(){
