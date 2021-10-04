@@ -40,7 +40,7 @@ export default function InnerComment(props) {
                 {(props.loggedIn && firebase.auth().currentUser.uid === comment.userId)?<button onClick={deleteComment}><img className="commentDeleteBtn" src="pictures/delete.svg"/></button>:""}
             </legend>:
             <legend>
-                <div class="dot-flashing"></div>
+                <div className="dot-flashing"></div>
             </legend>}
             <p>{comment.content}</p>
         </fieldset>

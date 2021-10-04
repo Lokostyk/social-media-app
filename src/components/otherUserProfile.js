@@ -70,7 +70,7 @@ export default function OtherUserProfile(props) {
                 <div className="profilePic">
                     <img src={userData.userProfilePicture} />
                 </div>
-                <p style={{marginTop: .5 + "rem"}}>{userData.userDescription}</p>
+                <p style={{marginTop: .5 + "rem",maxHeight:"20vh",overflowX:"auto"}}>{userData.userDescription}</p>
                 {(props.loggedIn && currentUserId !== props.userId)?
                     <>
                     {newFriend?
@@ -83,7 +83,7 @@ export default function OtherUserProfile(props) {
                 }
             </div>:
             <div className="loader">
-                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
             </div>}
         </div>
     )

@@ -50,6 +50,9 @@ export default function Posts(props) {
             }
         })
         if(node) observer.current.observe(node)
+        return ()=>{
+            observer.current.disconnect()
+        }
     },[hasMore,loading])
     const deletePost = useCallback((id,hadPhoto,date)=> {
         if(hadPhoto !== ""){
@@ -73,7 +76,7 @@ export default function Posts(props) {
                 )})}
                 {loading?
                 <div className="loader">
-                    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                    <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                 </div>:""}
                 {!hasMore?
                     <h3 style={{textAlign: "center",color:"#2b6777"}}>We runned out of posts...</h3>

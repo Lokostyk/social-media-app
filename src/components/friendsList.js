@@ -49,20 +49,20 @@ export default function FriendsList(props) {
         <div className="profileSet">
             {!loading?<>
             <p style={{fontSize:"1.1rem",marginBottom:".1rem"}}>Click on tile to open profile</p>
-            <div className="formSet" style={{padding:".5rem 0"}}>
+            <div className="formSet" style={{padding:".5rem 0",maxHeight:"80vh",overflowX:"auto"}}>
                 {friendsData.map(person=>{
-                    return (<>
+                    return (<React.Fragment key={person.userId}>
                     <hr style={{border:"1px solid #f5f5f5"}}/>
-                    <button onClick={()=>openUserProfile(person.userId)} className="userProfileOnList">
+                    <div onClick={()=>openUserProfile(person.userId)} className="userProfileOnList">
                         <span>{person.userName} {person.userSurname}</span>
                         <button onClick={(e)=>deleteFriend(e,person.userId)}><img src="pictures/delete.svg"/></button>
-                    </button>
+                    </div>
                     <hr style={{border:"1px solid #f5f5f5"}}/>
-                    </>)
+                    </React.Fragment>)
                 })}
             </div></>:
                 <div className="loader">
-                    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                    <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                 </div>}
         </div>
     )

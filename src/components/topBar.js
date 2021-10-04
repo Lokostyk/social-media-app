@@ -21,12 +21,6 @@ export default function TopBar(props) {
         setSearchValue("")
         displayOnlySevenUsers(usersData)
     }
-    function removeUsers(){
-        setTimeout(()=>{
-            setUsers([])
-            setSearchValue("Search friends...")
-        },70)
-    }
     function openProfile(key){
         props.display(key)
     }
@@ -54,6 +48,13 @@ export default function TopBar(props) {
         }else {
             displayOnlySevenUsers(usersData)
         }
+    }
+    function removeUsers(){
+        setTimeout(intervalLoader,70)
+    }
+    function intervalLoader() {
+        setUsers([])
+        setSearchValue("Search friends...")
     }
     return (
         <nav className="topBar">
