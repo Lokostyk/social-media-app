@@ -17,6 +17,19 @@ button {
 .noDisplay {
   display: none;
 }
+//Custom sroll
+html {
+  &::-webkit-scrollbar {
+    width: 9px;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(82, 171, 152, 0.8);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $deepblue;
+    border-radius: 9px;
+  }
+}
 //Alerts
 .topAlert {
   position: fixed;
