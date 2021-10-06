@@ -5,6 +5,7 @@ import firebase from "firebase/app"
 function ChatBox(props) {
     const person = props.person
     const uId = firebase.auth().currentUser.uid
+    const [firstChatOpen,setFirstChatOpen] = useState(false)
     const [expandChat,setExpandChat] = useState(false)
     const [chatMessages,setChatMessages] = useState([])
     const [currentMessage,setCurrentMessage] = useState("")
@@ -14,18 +15,22 @@ function ChatBox(props) {
         firebase.firestore().collection("chat").doc(uId).onSnapshot((snap)=>{
             firebase.firestore().collection("chat").doc(person.id).onSnapshot((e)=>{
                 if(!e.exists || !e.data()[uId]){
-                setChatMessages([...snap.data()[person.id]].sort((a,b)=>a.timestamp - b.timestamp))
+                    setChatMessages([...snap.data()[person.id]].sort((a,b)=>a.timestamp - b.timestamp))
                 }else{
-                setChatMessages([...e.data()[uId],...snap.data()[person.id]].sort((a,b)=>a.timestamp - b.timestamp))
+                    setChatMessages([...e.data()[uId],...snap.data()[person.id]].sort((a,b)=>a.timestamp - b.timestamp))
                 }
             })
         })
     },[person])
-    const scrollDown = (e) => {
-        const messageBox = e.target.parentElement
+    useEffect(()=>{
+        console.log(chatMessages.length)
+        if(chatMessages.length === 0) return
+        const lastMes = document.querySelector(`#${person.id}`)
+        const messageBox = lastMes.parentElement
+        if(messageBox.scrollTop <= messageBox.scrollHeight * 0.7 && firstChatOpen) return
         messageBox.scrollTop = messageBox.scrollHeight
-        console.log(e.target.parentElement,expandChat)   
-    }
+        setFirstChatOpen(true)
+    },[chatMessages])
     const sendMessage = useCallback((e)=>{
         const timestamp = new Date().getTime()
         e.preventDefault()
@@ -34,6 +39,8 @@ function ChatBox(props) {
             [person.id]: firebase.firestore.FieldValue.arrayUnion({timestamp,content:currentMessage,uId})
         }).then(()=>{
             setCurrentMessage("")
+            const messageBox = e.target.previousElementSibling 
+            messageBox.scrollTop = messageBox.scrollHeight
         })
     },[currentMessage])
     return (
@@ -50,7 +57,7 @@ function ChatBox(props) {
                             <div key={mess.timestamp} className={`message ${mess.uId !== uId?"left":""}`}>
                                 <p>{mess.content}</p>
                             </div>:
-                            <div id="last" onLoad={(e)=>scrollDown(e)} key={mess.timestamp} className={`message 2 ${mess.uId !== uId?"left":""}`}>
+                            <div id={person.id} key={mess.timestamp} className={`message 2 ${mess.uId !== uId?"left":""}`}>
                                 <p>{mess.content}</p>
                             </div>
                             }</>)
