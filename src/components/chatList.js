@@ -34,6 +34,10 @@ export default function ChatList() {
         })
     },[])
     const displayFriendChat = useCallback((name,surname,id)=>{
+        if(document.body.clientWidth <= 911){
+            setChatOppend([{name,surname,id}])
+            return
+        }
         if(chatOppend.length === 2){
             if(chatOppend[0].id === id || chatOppend[1].id === id) return
             setChatOppend([{name,surname,id},...chatOppend.slice(0,1)])

@@ -23,14 +23,13 @@ function ChatBox(props) {
         })
     },[person])
     useEffect(()=>{
-        console.log(chatMessages.length)
-        if(chatMessages.length === 0) return
-        const lastMes = document.querySelector(`#${person.id}`)
+        if(document.querySelector(`#a${person.id}`) === null) return
+        const lastMes = document.querySelector(`#a${person.id}`)
         const messageBox = lastMes.parentElement
         if(messageBox.scrollTop <= messageBox.scrollHeight * 0.7 && firstChatOpen) return
         messageBox.scrollTop = messageBox.scrollHeight
         setFirstChatOpen(true)
-    },[chatMessages])
+    },[chatMessages,firstChatOpen])
     const sendMessage = useCallback((e)=>{
         const timestamp = new Date().getTime()
         e.preventDefault()
@@ -57,7 +56,7 @@ function ChatBox(props) {
                             <div key={mess.timestamp} className={`message ${mess.uId !== uId?"left":""}`}>
                                 <p>{mess.content}</p>
                             </div>:
-                            <div id={person.id} key={mess.timestamp} className={`message 2 ${mess.uId !== uId?"left":""}`}>
+                            <div id={`a${person.id}`} key={mess.timestamp} className={`message 2 ${mess.uId !== uId?"left":""}`}>
                                 <p>{mess.content}</p>
                             </div>
                             }</>)

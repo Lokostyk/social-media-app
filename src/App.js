@@ -56,6 +56,14 @@ function App() {
       }) 
     })
   }
+  const expandButtonMobile = () => {
+    const menuClassList = document.getElementsByTagName("main")[0].classList
+    if(!menuClassList.contains("expandMobile")){
+      menuClassList.add("expandMobile")
+    }else{
+      menuClassList.remove("expandMobile")
+    }
+  }
     return (
       <AlertContext.Provider value={setAlert}>
     <main>
@@ -64,6 +72,7 @@ function App() {
         <LoginOrRegister userData={userData} loggedIn={setLoggedIn} display={display} register={setDisplay} />
         <Menu display={setDisplay} loggedIn={loggedIn}/>
       </div>
+      <button className="mobileBtn1" onClick={expandButtonMobile}><span></span><span></span></button>
       {/* ******** Middle content ******** */}
       {display === "Register"? <RegisterForm display={display} register={setDisplay} />: ""}
       {(display === "ProfileSettings" && loggedIn)?<ProfileSettings display={display} userData={userData} loggedIn={setLoggedIn} setUserData={setUserData}/>: ""}

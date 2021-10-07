@@ -1002,6 +1002,9 @@ html {
   width: 20.5px;
   margin-left: auto;
 }
+.mobileBtn1 {
+  display: none;
+}
 // ----- LOADING ANIMATIONS ----- //
 // Circle
 .loader {
@@ -1144,5 +1147,122 @@ html {
   50%,
   100% {
     background-color: #ebe6ff;
+  }
+}
+//Mobile and big screen
+@media screen and (min-width: 1300px) {
+  main {
+    grid-template-columns: 13rem 1fr;
+  }
+}
+@media screen and (max-width: 970px) {
+  .postAdd .postLabel {
+    width: 50%;
+  }
+  .topBar {
+    width: 95%;
+    form {
+      width: 50%;
+    }
+  }
+  .menu li {
+    font-size: 0.9rem;
+    margin: 1rem 0.5rem;
+  }
+  .post {
+    .postBox {
+      width: 80%;
+    }
+    .commentsBox {
+      width: 70%;
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  main {
+    grid-template-columns: none;
+    height: 100vh;
+    &::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: transparent;
+      transition: 0.8s all;
+    }
+  }
+  .menu {
+    width: 0%;
+    position: fixed;
+    left: 0;
+    overflow: hidden;
+    top: 0;
+    border-right: 1px solid rgb(82, 171, 152);
+    transition: 1s all;
+    white-space: nowrap;
+    z-index: 2;
+  }
+  .expandMobile {
+    &::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+    .menu {
+      width: 30%;
+    }
+    .mobileBtn1 {
+      left: 30%;
+      span {
+        &:first-child {
+          transform: rotate(20deg);
+        }
+        &:last-child {
+          transform: rotate(-20deg);
+        }
+      }
+    }
+  }
+  .mobileBtn1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 0%;
+    top: 50%;
+    margin-left: -1px;
+    height: 9rem;
+    width: 2.5rem;
+    overflow: visible;
+    border: none;
+    border: 1px solid rgb(82, 171, 152);
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    background-color: $deepblue;
+    transition: 1s all;
+    transform: translate(0, -50%);
+    z-index: 2;
+    span {
+      height: 4rem;
+      border: 4px solid rgb(82, 171, 152);
+      border-radius: 8px;
+      transform: rotate(20deg);
+      transform-origin: center;
+      transition: 0.8s all;
+
+      &:first-child {
+        transform: rotate(-20deg);
+        margin-bottom: -4px;
+      }
+      &:last-child {
+        margin-top: -4px;
+      }
+    }
   }
 }
