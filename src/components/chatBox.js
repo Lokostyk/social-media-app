@@ -42,9 +42,22 @@ function ChatBox(props) {
             messageBox.scrollTop = messageBox.scrollHeight
         })
     },[currentMessage])
+    const expandChatBox = () =>{
+        setExpandChat(!expandChat)
+        //Mobile
+        const docBody = document.body
+        if(docBody.clientWidth <= 500 && docBody.style.overflow !== "hidden"){
+            docBody.style.overflow = "hidden"
+        }else{
+            docBody.style.overflow = "auto"
+        }
+    }
     return (
         <div className={`chatBox ${expandChat?"expandChat":""}`} style={props.haveTwo?(props.isSecond?{right:"15.1rem"}:{right:"30.4rem"}):{right:"15.2rem"}}>
-            <p onClick={()=>setExpandChat(!expandChat)} className="chatTitle">{person.name +" "+ person.surname}</p>
+            <p onClick={()=>expandChatBox()} className="chatTitle">
+                {person.name +" "+ person.surname}
+                <button className={document.body.clientWidth <= 500?"mobileBtn2":"noDisplay"}>x</button>
+            </p>
             <div className="messageBox">
                 {chatMessages.length === 0?
                 <div style={{backgroundColor: "#f5f5f5",padding:".6rem .3rem",margin:".5rem .6rem",borderRadius:"8px",textAlign:"center"}}>
