@@ -575,7 +575,8 @@ html {
     .postImage {
       display: flex;
       margin: 0.2rem auto 0 auto;
-      height: 25rem;
+      max-width: 23rem;
+      max-height: 100rem;
       border-radius: 2px;
     }
     .heartsCommentsBox {
@@ -837,6 +838,8 @@ html {
   width: 15rem;
   overflow: hidden;
   background-color: $deepblue;
+  border: 1px solid #f5f5f5;
+  border-bottom: none;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   .chatTitle {
@@ -1005,6 +1008,9 @@ html {
 .mobileBtn1 {
   display: none;
 }
+#defaultMiddleContent {
+  background-color: #f5f5f5;
+}
 // ----- LOADING ANIMATIONS ----- //
 // Circle
 .loader {
@@ -1155,6 +1161,16 @@ html {
     grid-template-columns: 13rem 1fr;
   }
 }
+@media screen and (max-width: 1051px) {
+  .loginForm input[type="text"],
+  input[type="password"] {
+    width: 95%;
+  }
+  .labelDisabled p,
+  .labelEnabled p {
+    white-space: nowrap;
+  }
+}
 @media screen and (max-width: 970px) {
   .postAdd .postLabel {
     width: 50%;
@@ -1175,6 +1191,16 @@ html {
     }
     .commentsBox {
       width: 70%;
+    }
+  }
+}
+@media screen and (max-width: 800px) and (min-width: 630px) {
+  .expandMobile {
+    .menu {
+      width: 30%;
+    }
+    .mobileBtn1 {
+      left: 30%;
     }
   }
 }
@@ -1213,11 +1239,7 @@ html {
       background-color: rgba(0, 0, 0, 0.5);
       z-index: 1;
     }
-    .menu {
-      width: 30%;
-    }
     .mobileBtn1 {
-      left: 30%;
       span {
         &:first-child {
           transform: rotate(20deg);
@@ -1235,7 +1257,7 @@ html {
     justify-content: center;
     position: fixed;
     left: 0%;
-    top: 50%;
+    top: 45%;
     margin-left: -1px;
     height: 9rem;
     width: 2.5rem;
@@ -1264,5 +1286,30 @@ html {
         margin-top: -4px;
       }
     }
+  }
+}
+@media screen and (max-width: 630px) {
+  .topBar form {
+    width: 70%;
+  }
+  .postAdd .postLabel {
+    width: 70% !important;
+  }
+  .post .commentsBox {
+    width: 75% !important;
+  }
+  .expandMobile {
+    .menu {
+      width: 45%;
+    }
+    .mobileBtn1 {
+      left: 45%;
+    }
+  }
+  .formSet {
+    width: 25rem;
+  }
+  .formSet .surName input[type="text"] {
+    width: 100%;
   }
 }
