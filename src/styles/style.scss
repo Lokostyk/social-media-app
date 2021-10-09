@@ -1294,10 +1294,10 @@ html {
 }
 @media screen and (max-width: 630px) {
   .topBar form {
-    width: 70%;
+    width: 75%;
   }
   .postAdd .postLabel {
-    width: 70% !important;
+    width: 75% !important;
   }
   .post .commentsBox {
     width: 75% !important;
@@ -1331,6 +1331,61 @@ html {
     }
     .messageBox .message p {
       font-size: 1.3rem;
+    }
+  }
+  .expandChat {
+    .chatTitle {
+      font-size: 1.3rem;
+    }
+    .mobileBtn2 {
+      position: absolute;
+      right: 8px;
+      top: 3.5px;
+      border: none;
+      background-color: inherit;
+      float: right;
+      img {
+        height: 25px;
+      }
+    }
+  }
+  .post .postBox .postImage {
+    max-width: 95%;
+  }
+  .chatBox {
+    display: none;
+  }
+  .expandChat {
+    display: flex;
+  }
+}
+@media screen and (max-width: 400px) {
+  .expandMobile {
+    .menu {
+      width: 60% !important;
+    }
+    .mobileBtn1 {
+      left: 60% !important;
+    }
+  }
+  .formSet {
+    width: 95%;
+  }
+  .expandMobile {
+    .mobileBtn1 {
+      left: 0%;
+      bottom: 33%;
+      transform: translate(0, -50%);
+    }
+  }
+  .mobileBtn1 {
+    height: 7.4rem;
+    width: 2rem;
+    top: auto;
+    bottom: 0%;
+    transform: translate(0, 0);
+    span {
+      height: 3.5rem;
     }
   }
 }

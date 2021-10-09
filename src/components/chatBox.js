@@ -10,7 +10,13 @@ function ChatBox(props) {
     const [chatMessages,setChatMessages] = useState([])
     const [currentMessage,setCurrentMessage] = useState("")
 
-    useEffect(()=>setExpandChat(false),[person])
+    useEffect(()=>{
+        setExpandChat(false)
+        if(document.body.clientWidth <= 500){
+            setExpandChat(true)
+            document.body.style.overflow = "hidden"
+        }
+    },[person])
     useEffect(()=>{
         firebase.firestore().collection("chat").doc(uId).onSnapshot((snap)=>{
             firebase.firestore().collection("chat").doc(person.id).onSnapshot((e)=>{
@@ -42,21 +48,20 @@ function ChatBox(props) {
             messageBox.scrollTop = messageBox.scrollHeight
         })
     },[currentMessage])
-    const expandChatBox = () =>{
+    const expandChatBox = (e) =>{
         setExpandChat(!expandChat)
         //Mobile
         const docBody = document.body
         if(docBody.clientWidth <= 500 && docBody.style.overflow !== "hidden"){
-            docBody.style.overflow = "hidden"
         }else{
             docBody.style.overflow = "auto"
         }
     }
     return (
         <div className={`chatBox ${expandChat?"expandChat":""}`} style={props.haveTwo?(props.isSecond?{right:"15.1rem"}:{right:"30.4rem"}):{right:"15.2rem"}}>
-            <p onClick={()=>expandChatBox()} className="chatTitle">
+            <p onClick={expandChatBox} className="chatTitle">
                 {person.name +" "+ person.surname}
-                <button className={document.body.clientWidth <= 500?"mobileBtn2":"noDisplay"}>x</button>
+                <button className={document.body.clientWidth <= 500 && expandChat?"mobileBtn2":"noDisplay"}><img src="/pictures/delete.svg"/></button>
             </p>
             <div className="messageBox">
                 {chatMessages.length === 0?
