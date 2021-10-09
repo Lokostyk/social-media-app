@@ -56,11 +56,13 @@ export default function RegisterInput(props) {
                 <div>
                     <fieldset style={{marginRight: .5+"rem"}}>
                         <legend>Name</legend>
-                    <input className="rInput" type="text" value={name} onChange={(e)=>setName(e.target.value)} required/><br />
+                    <input className="rInput" type="text" value={name} 
+                    onChange={(e)=>setName(e.target.value)} style={name.length > 12?{color:"red"}:{}} required/><br />
                     </fieldset>
                     <fieldset style={{marginLeft: .5+"rem"}}>
                         <legend>Surname</legend>
-                    <input className="rInput" type="text" value={surname} onChange={(e)=>setSurname(e.target.value)} required/><br />
+                    <input className="rInput" type="text" value={surname} 
+                    onChange={(e)=>setSurname(e.target.value)} style={surname.length > 12?{color:"red"}:{}} required/><br />
                     </fieldset>
                 </div>
                 <fieldset>

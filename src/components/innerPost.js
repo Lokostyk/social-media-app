@@ -68,6 +68,7 @@ export default function InnerPost(props) {
         }
     }
     function expandPostSettings(e) {
+        if(e.target.src === undefined) return
         const list = e.target.parentElement.nextElementSibling
         list.classList.toggle("expandSettings")
         //Close all oppend settings options

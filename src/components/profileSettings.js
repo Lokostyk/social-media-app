@@ -22,7 +22,7 @@ export default function ProfileSettings(props) {
     const submit = useCallback(()=>{
         if(/^[A-z]+$/i.test(userName) && /^[A-z]+$/i.test(userSurname) 
         && userSurname.length <= 12 && userName.length <= 12){
-            firebase.database().ref("users/" + user.uid).set({
+            firebase.database().ref("users/" + user.uid).update({
                 userName,
                 userSurname,
                 userEmail,
@@ -68,8 +68,10 @@ export default function ProfileSettings(props) {
         <div className="profileSet">
             <form className="formSet" onSubmit={(e)=> e.preventDefault()}>
                 <div className="surName">
-                    <input type="text" disabled={displayState} value={userName} onChange={(e)=>setUserName(e.target.value)} required/>
-                    <input type="text" disabled={displayState} value={userSurname} onChange={(e)=>setUserSurname(e.target.value)} required/>
+                    <input type="text" disabled={displayState} value={userName} 
+                    onChange={(e)=>setUserName(e.target.value)} style={userName.length > 12?{color:"red"}:{}} required/>
+                    <input type="text" disabled={displayState} value={userSurname} 
+                    onChange={(e)=>setUserSurname(e.target.value)} style={userSurname.length > 12?{color:"red"}:{}} required/>
                 </div>
                 <label className="profilePic">
                     <input type="file" onChange={handleImageChange} accept="image/png, image/jpeg"/>

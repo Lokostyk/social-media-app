@@ -7,7 +7,7 @@ export default function ChatList() {
     const [displayFriendList,setDisplayFriendList] = useState(false)
     const [friendsData,setFriendsData] = useState([])
     const [chatOppend,setChatOppend] = useState([])
-
+    const [friendsSearch,setFriendsSearch] = useState("Search friend...")
     useEffect(()=>{
         const dataList = new Array()
         firebase.database().ref("users").child(firebase.auth().currentUser.uid).child("userFriends").get().then((snap)=>{
@@ -46,6 +46,20 @@ export default function ChatList() {
             setChatOppend([{name,surname,id},...chatOppend])
         }
     },[chatOppend])
+    const searchUsers = useCallback((e)=>{
+        setFriendsSearch(e.target.value)
+        if(e.target.value === ""){
+            setFriendsData(friendsData.sort((a,b)=>a.userName.localeCompare(b.userName)))
+            return
+        }
+        const regex = new RegExp(e.target.value,"i")
+        const sortedFriendsList = [...friendsData].sort((a,b)=>{
+            if(!regex.test(a.userName + " " + a.userSurname)) return 1
+            if(regex.test(a.userName + " " + a.userSurname)) return -1
+            if(!regex.test(a.userName + " " + a.userSurname) && !regex.test(b.userName + " " + b.userSurname)) return 0
+        })
+        setFriendsData(sortedFriendsList)
+    },[friendsData])
     return (
         <>
             {chatOppend.map(person=>{
@@ -54,6 +68,10 @@ export default function ChatList() {
             <div className="chatBoxList">
                 <button className="friendsBtn" onClick={()=>setDisplayFriendList(!displayFriendList)}>Friends <span>({friendsData.length})</span></button>
                 <div className={displayFriendList?"chatList":"notDisplayChat"}>
+                    <input className="searchFriends" value={friendsSearch} onChange={searchUsers} 
+                    onFocus={()=>friendsSearch==="Search friend..."?setFriendsSearch(""):""} 
+                    onBlur={()=>friendsSearch===""?setFriendsSearch("Search friend..."):""}
+                    style={friendsSearch==="Search friend..."?{color:"grey"}:{}}/>
                     {friendsData.map(person=>{
                         return (
                             <button key={person.userId} onClick={()=>displayFriendChat(person.userName,person.userSurname,person.userId)} className="chatTile">{person.userName + " " + person.userSurname}<img className="smallProfilePicture" src={person.userProfilePicture}/></button>
