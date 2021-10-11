@@ -1,6 +1,11 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 
 export default function Alert(props) {
+    useEffect(()=>{
+        setTimeout(()=>{
+            props.setAlert({"style":"noDisplay","txt":"","functions":""})
+        },30000)
+    },[props])
     function removeAlert(){
         props.setAlert({"style":"noDisplay","txt":"","functions":""})
     }

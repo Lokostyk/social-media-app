@@ -32,26 +32,23 @@ html {
 }
 //Alerts
 .topAlert {
+  display: flex;
+  justify-content: space-between;
   position: fixed;
   top: 0px;
-  left: 10vw;
+  left: 0;
   padding: 0.3rem;
-  width: 80vw;
+  width: 100vw;
   font-size: 1.1rem;
-  background-color: rgba(82, 171, 152, 0.8);
-  border: 1px solid $deepblue;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  background-color: rgba(46, 189, 158, 0.7);
   color: whitesmoke;
   z-index: 10;
   p {
-    display: inline-block;
     align-items: center;
     padding-top: 0.2rem;
     margin-left: 1rem;
   }
   button {
-    float: right;
     margin-right: 1rem;
     border: none;
     background-color: rgba(82, 171, 152, 0.1);

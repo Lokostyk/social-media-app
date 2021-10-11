@@ -23,7 +23,6 @@ function App() {
   if(loggedIn !== true && loggedIn !== false){
     setLoggedIn(true)
   }
-  
   //Getting user data from database
   const [userData,setUserData] = useState([""])
   
