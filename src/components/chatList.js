@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState, useEffect , useCallback } from 'react/cjs/react.development'
+import React,{ useState, useEffect , useCallback } from 'react'
 import firebase from "firebase/app"
 import ChatBox from './chatBox'
 

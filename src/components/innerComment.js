@@ -1,6 +1,5 @@
 import React from 'react'
-import { useCallback } from 'react'
-import { useEffect, useState } from 'react/cjs/react.development'
+import { useCallback,useState,useEffect } from 'react'
 import firebase from "firebase/app"
 
 export default function InnerComment(props) {

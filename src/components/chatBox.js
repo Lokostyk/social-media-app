@@ -1,5 +1,4 @@
-import React,{useState} from 'react'
-import { useCallback, useEffect } from 'react/cjs/react.development'
+import React,{useState,useEffect,useCallback} from 'react'
 import firebase from "firebase/app"
 
 function ChatBox(props) {
