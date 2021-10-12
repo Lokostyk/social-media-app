@@ -8,7 +8,10 @@ export default function FriendsList(props) {
     useEffect(()=>{
         const dataList = new Array()
         firebase.database().ref("users").child(firebase.auth().currentUser.uid).child("userFriends").get().then((snap)=>{
-            if(snap.val() === null) return
+            if(snap.val() === null){
+                setLoading(false)
+                return
+            }
             snap.val().map((personId,index)=>{
                 firebase.database().ref("users").child(personId).get().then(p=>{
                     firebase.storage().ref("users").child(personId).getMetadata().then((img)=>{
@@ -50,6 +53,8 @@ export default function FriendsList(props) {
             {!loading?<>
             <p style={{fontSize:"1.1rem",marginBottom:".1rem"}}>Click on tile to open profile</p>
             <div className="formSet" style={{padding:".5rem 0",maxHeight:"80vh",overflowX:"auto"}}>
+                {friendsData.length === 0?
+                    <span style={{color:"#2b6777",fontSize:"1.1rem",margin:".5rem"}}>You don't have any friends yet...</span>:null}
                 {friendsData.map(person=>{
                     return (<React.Fragment key={person.userId}>
                     <hr style={{border:"1px solid #f5f5f5"}}/>

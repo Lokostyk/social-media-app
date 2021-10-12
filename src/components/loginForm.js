@@ -1,10 +1,12 @@
-import React, { useState,useCallback } from 'react'
+import React, { useState,useCallback,useContext } from 'react'
 import firebase from 'firebase'
 import app,{ auth } from "./firebase"
+import { AlertContext } from '../Contexts/alert'
 
 export default function LoginForm(props) {
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
+    const setAlert = React.useContext(AlertContext)
 
     const login = useCallback(()=>{
         firebase.auth().signInWithEmailAndPassword(email, password)
@@ -15,7 +17,7 @@ export default function LoginForm(props) {
             }
         })
         .catch((error)=>{
-            console.log(error)
+            setAlert({"style": "topAlert","txt":"Wrong password or email!","functions":"delete"})
         })
     })
     return (

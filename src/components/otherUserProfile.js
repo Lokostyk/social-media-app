@@ -70,7 +70,7 @@ export default function OtherUserProfile(props) {
                 <div className="profilePic">
                     <img src={userData.userProfilePicture} />
                 </div>
-                <p style={{marginTop: .5 + "rem",maxHeight:"20vh",overflowX:"auto"}}>{userData.userDescription}</p>
+                <p style={{marginTop: .5 + "rem",maxHeight:"20vh",overflowX:"auto",textAlign:"center"}}>{userData.userDescription}</p>
                 {(props.loggedIn && currentUserId !== props.userId)?
                     <>
                     {newFriend?

@@ -43,7 +43,7 @@ export default function RegisterInput(props) {
                     console.log(error)
                 })
             }else {
-                setAlert({"style": "topAlert","txt":"Name and Surname can contain up to 12 letters!","functions":"delete"})
+                setAlert({"style": "topAlert","txt":"Name and Surname have to contain up to 12 letters!","functions":"delete"})
             }
         }else{
             setAlert({"style": "topAlert","txt":"Passwords must be the same!","functions":"delete"})

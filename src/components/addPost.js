@@ -52,6 +52,11 @@ export default function AddPost(props) {
                 setAlert({"style": "topAlert","txt":"Post added!","functions":"delete"})
         })}
     },[postContent,photo])
+    const displayPhotoName = (name)=>{
+        if(photo.length >= 10){
+            const fileExtension = name.slice(name.lastIndexOf("."))
+        }
+    }
     window.addEventListener("click",()=>{
         if(view !== ""){
             setView("")
@@ -65,7 +70,9 @@ export default function AddPost(props) {
                         <textarea className={`postTextarea ${view}`} value={postContent} onChange={(e)=>setPostContent(e.target.value)}/>
                         {photo ? 
                             <div className="postImage">
-                                <a href={URL.createObjectURL(photo)} target="_blank">{photo.name}</a>
+                                <a href={URL.createObjectURL(photo)} target="_blank">
+                                    {photo.name.length >= 10?photo.name.slice(0,9)+".."+photo.name.slice(photo.name.lastIndexOf(".")):photo.name}
+                                </a>
                                 <button onClick={()=> setPhoto(false)}><img src="pictures/delete.svg" /></button>
                             </div>: ""}
                         <div className="postBtns">
