@@ -6,14 +6,13 @@ import { AlertContext } from '../Contexts/alert'
 export default function AddPost(props) {
     const setAlert = useContext(AlertContext)
 
-    const [postContent,setPostContent] = useState("Create your post here")
+    const [postContent,setPostContent] = useState("")
     const [view,setView] = useState("")
     const [photo,setPhoto] = useState(false)
     
     function expand(e) {
         e.stopPropagation()
         setView("fullView")
-        postContent === "Create your post here" ? setPostContent("") : console.log()
     }
     const addPost = useCallback(()=>{
         if(postContent === "") return
@@ -52,11 +51,6 @@ export default function AddPost(props) {
                 setAlert({"style": "topAlert","txt":"Post added!","functions":"delete"})
         })}
     },[postContent,photo])
-    const displayPhotoName = (name)=>{
-        if(photo.length >= 10){
-            const fileExtension = name.slice(name.lastIndexOf("."))
-        }
-    }
     window.addEventListener("click",()=>{
         if(view !== ""){
             setView("")
@@ -67,7 +61,7 @@ export default function AddPost(props) {
                 <div className={`postAdd ${view}`}>
                     <label className="postLabel" onClick={expand}>
                         <p>Add new post</p>
-                        <textarea className={`postTextarea ${view}`} value={postContent} onChange={(e)=>setPostContent(e.target.value)}/>
+                        <textarea className={`postTextarea ${view}`} value={postContent} onChange={(e)=>setPostContent(e.target.value)} placeholder="Create your post here"/>
                         {photo ? 
                             <div className="postImage">
                                 <a href={URL.createObjectURL(photo)} target="_blank">

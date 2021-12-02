@@ -8,7 +8,6 @@ export default function OtherUserProfile(props) {
     const [newFriend,setNewFriend] = useState(true)
 
     useEffect(()=>{
-        if(!currentUserId) return
         let data = {}
         firebase.database().ref("users").child(props.userId).get().then((snapshot)=> {
             data = snapshot.val()
@@ -26,6 +25,7 @@ export default function OtherUserProfile(props) {
                 }
             })
         }) 
+        if(!currentUserId) return
         firebase.database().ref("users").child(currentUserId).child("userFriends").get().then(snap=>{
             const friendsList = snap.val()
             if(friendsList === null) return
